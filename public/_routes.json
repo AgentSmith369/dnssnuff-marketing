@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/pricing",
+    "/pricing/*",
+    "/features",
+    "/features/*",
+    "/about",
+    "/about/*",
+    "/docs",
+    "/docs/*",
+    "/use-cases/*",
+    "/blog",
+    "/blog/*",
+    "/alternatives/*",
+    "/privacy-policy",
+    "/privacy-policy/*",
+    "/terms-of-service",
+    "/terms-of-service/*",
+    "/cookie-policy",
+    "/cookie-policy/*",
+    "/_astro/*",
+    "/styles/*",
+    "/favicon.ico"
+  ]
+}
