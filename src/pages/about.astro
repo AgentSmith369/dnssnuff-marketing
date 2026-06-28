@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="About DNSSnuff — DNS Health & Email Deliverability Diagnostics"
+  description="DNSSnuff was built because existing DNS tools show you data without telling you what it means. 72 checks, plain-English verdicts, free forever."
+  currentPath="/about"
+>
+  <Nav slot="nav" currentPath="/about" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">About</div>
+      <h1>Built because "raw data"<br/>isn't an answer.</h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-narrow">
+      <h2>The problem we kept seeing</h2>
+      <div class="prose">
+        <p>DNS is foundational. It controls whether your email arrives, whether your website loads, whether your domain can be spoofed, and whether your security measures actually work.</p>
+        <p>And yet most DNS tools — even the widely-used ones — present raw records and leave you to figure out what they mean.</p>
+        <p>You get a long table of DNS data. You get a green tick or a red cross. You get a status code. What you don't get is an answer.</p>
+        <p>Is this a problem or not? Is it urgent? What do I do about it? Those questions remain unanswered.</p>
+      </div>
+
+      <hr class="divider" />
+
+      <h2>What we built</h2>
+      <div class="prose">
+        <p>DNSSnuff runs 72 automated checks across every layer of DNS that matters — parent zone delegation, nameserver configuration, SOA health, mail server setup, email authentication (SPF, DKIM, DMARC, BIMI), SSL and web presence, DNSSEC chain of trust, and 50+ blacklist lookups.</p>
+        <p>Then it tells you what the results mean. In plain English. With specific fix instructions. Ordered by severity so you know what to deal with first.</p>
+        <p>Free, for any domain, in under 5 seconds. No account. No credit card.</p>
+      </div>
+
+      <hr class="divider" />
+
+      <h2>What we believe</h2>
+      <div class="values-grid">
+        <div class="card">
+          <h4>DNS health should be accessible.</h4>
+          <p>Understanding whether your domain is correctly configured shouldn't require deep expertise, expensive tooling, or hours of research. One report should tell you everything you need to know.</p>
+        </div>
+        <div class="card">
+          <h4>Plain English is not dumbing down.</h4>
+          <p>Translating technical results into actionable verdicts isn't simplification — it's the actual hard work. The raw records are easy to show. Telling you what they mean is the product.</p>
+        </div>
+        <div class="card">
+          <h4>Free tools build trust.</h4>
+          <p>The DNSSnuff report is free because we want everyone to be able to check. If you find value in monitoring, alerting, and white-label reporting, Pro is there. But the core diagnostic tool will always be free.</p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="tool-summary text-center">
+        <p class="summary-stat">72 checks. 8 categories. One verdict. Under 5 seconds.</p>
+        <a href="/" class="btn btn-primary">Run a Free Report →</a>
+      </div>
+
+      <hr class="divider" />
+
+      <h2>Contact</h2>
+      <p>Questions, feedback, or enterprise requirements: <a href="mailto:hello@dnssnuff.com">hello@dnssnuff.com</a> or use the <a href="/contact">contact form</a>.</p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.prose { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+.values-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+.summary-stat { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 2rem; }
+.tool-summary { padding: 3rem 2rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: 16px; }
+</style>

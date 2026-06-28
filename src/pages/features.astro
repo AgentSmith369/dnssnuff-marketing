@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="Features — 72 DNS & Email Checks Explained | DNSSnuff"
+  description="DNSSnuff runs 72 diagnostic checks across 8 categories — DNS health, email authentication, DNSSEC, SSL, and blacklists. See exactly what gets checked and why it matters."
+  currentPath="/features"
+>
+  <Nav slot="nav" currentPath="/features" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Features</div>
+      <h1>72 checks. 8 categories. One verdict.</h1>
+      <p>DNSSnuff doesn't just check your DNS — it reads it, interprets it, and tells you in plain English what needs fixing and why. Here's exactly what we check.</p>
+      <div class="hero-ctas">
+        <a href="/" class="btn btn-primary">Run a Free Report →</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="checks-grid">
+
+        {[
+          {
+            num: '01', name: 'Parent Zone', count: 6,
+            what: 'The parent zone is the layer above your domain — the TLD registry. For your domain to resolve correctly, the parent zone must recognise your nameservers and correctly delegate authority to them.',
+            checks: [
+              'Parent zone NS delegation — Are your nameservers listed in the parent zone?',
+              'Nameserver glue records — Are glue records present for in-bailiwick nameservers?',
+              'Parent-child NS consistency — Do parent zone NS records match your own zone\'s NS records?',
+              'Parent zone reachability — Is the parent zone responding correctly?',
+              'Lame delegation detection — Are any delegated nameservers unresponsive or misconfigured?',
+              'DS record presence — Is a Delegation Signer record present for DNSSEC?'
+            ],
+            why: 'A broken parent zone delegation means resolvers can\'t even find your nameservers. This is the most fundamental layer of DNS — if it\'s wrong, everything else fails silently.'
+          },
+          {
+            num: '02', name: 'Nameservers', count: 13,
+            what: 'Your nameservers are the authoritative source of truth for your domain\'s DNS records. DNSSnuff verifies that they\'re properly configured, consistent, and redundant.',
+            checks: [
+              'Minimum nameserver count — Do you have at least 2 nameservers for redundancy?',
+              'Nameserver hostname resolution — Do all NS hostnames resolve to valid IP addresses?',
+              'IPv4 and IPv6 support — Do nameservers respond on both A and AAAA records?',
+              'Authoritative response — Do all nameservers return authoritative answers for your zone?',
+              'Answer consistency — Do all nameservers return identical records for the same query?',
+              'Nameserver reachability (UDP) — Are all nameservers reachable over UDP port 53?',
+              'Nameserver reachability (TCP) — Are all nameservers reachable over TCP port 53?',
+              'Open resolver detection — Are any nameservers configured as open resolvers?',
+              'Recursive query rejection — Do nameservers correctly refuse recursive queries?',
+              'EDNS support — Do nameservers support Extension Mechanisms for DNS?',
+              'Zone transfer restriction — Are AXFR zone transfers correctly restricted?',
+              'Response time — Are nameserver response times within acceptable thresholds?',
+              'Nameserver in same subnet — Are all nameservers in different IP ranges for true redundancy?'
+            ],
+            why: 'Inconsistent nameservers cause intermittent failures that are almost impossible to diagnose without systematic checking. A single misconfigured nameserver can make your domain unreachable for a subset of users worldwide.'
+          },
+          {
+            num: '03', name: 'Start of Authority (SOA)', count: 9,
+            what: 'The SOA record defines the zone\'s administrative properties — including caching times, serial numbers, and retry behaviour. Problems here cause slow propagation and stale caches.',
+            checks: [
+              'SOA record presence — Does a valid SOA record exist?',
+              'Primary nameserver match — Does the SOA MNAME match a listed nameserver?',
+              'Hostmaster email validity — Is the responsible party email address correctly formatted?',
+              'Serial number format — Is the serial in the recommended YYYYMMDDNN format?',
+              'Refresh interval — Is the refresh interval within best-practice range (3600–86400 seconds)?',
+              'Retry interval — Is the retry interval appropriately shorter than the refresh interval?',
+              'Expire value — Is the expire value long enough to handle extended nameserver outages?',
+              'Negative TTL (minimum) — Is the negative TTL short enough to allow quick recovery after fixes?',
+              'SOA consistency — Do all nameservers return the same SOA record?'
+            ],
+            why: 'A badly configured SOA means DNS changes propagate slowly or inconsistently. This is particularly painful after an incident — you fix the problem, but resolvers continue serving the broken record for hours.'
+          },
+          {
+            num: '04', name: 'Mail Servers', count: 10,
+            what: 'Mail server configuration is one of the most common sources of email delivery failure. DNSSnuff checks the full stack — from MX record syntax to SMTP connectivity.',
+            checks: [
+              'MX record presence — Does the domain have valid MX records?',
+              'MX hostname resolution — Do all MX hostnames resolve to valid IP addresses?',
+              'MX priority ordering — Are MX priorities correctly set for preferred routing?',
+              'MX hostname as bare IP — Are any MX records incorrectly pointing to IP addresses?',
+              'MX hostname is CNAME — Are any MX records incorrectly pointing to CNAME records (not permitted by RFC)?',
+              'Null MX detection — Is a null MX record (0 .) correctly used for domains that don\'t send/receive email?',
+              'SMTP connectivity — Are mail servers reachable on port 25?',
+              'SMTP banner validity — Do mail servers return a valid SMTP greeting?',
+              'Open relay detection — Are mail servers configured to relay email for any sender?',
+              'Reverse DNS (PTR) match — Do mail server IPs have reverse DNS records matching their forward hostname?'
+            ],
+            why: 'A misconfigured MX record or an SMTP connectivity issue means email to your domain silently bounces. Most email delivery failures that people attribute to "spam filters" are actually DNS or mail server configuration errors.'
+          },
+          {
+            num: '05', name: 'Email Authentication', count: 14, star: true,
+            what: 'SPF, DKIM, DMARC, and BIMI are the four authentication standards that determine whether email from your domain is trusted by receiving mail servers. This is where most deliverability problems live.',
+            checks: [
+              'SPF record presence — Does a valid SPF record exist?',
+              'SPF syntax validation — Is the SPF record correctly formatted per RFC 7208?',
+              'SPF policy strength — Is the mechanism ending in -all (reject), ~all (softfail), or ?all (neutral)?',
+              'SPF lookup count — Does the record stay within the 10 DNS lookup limit?',
+              'Multiple SPF records — Is there only one SPF record? (Multiple records cause authentication failure)',
+              'DKIM record discovery — Are DKIM public key records discoverable for common selectors?',
+              'DKIM key validity — Are DKIM public keys syntactically valid?',
+              'DKIM key length — Are DKIM keys at least 1024 bits? (2048 recommended)',
+              'DMARC record presence — Does a valid DMARC record exist?',
+              'DMARC policy strength — Is the policy none, quarantine, or reject?',
+              'DMARC reporting configured — Is a reporting address (rua) configured?',
+              'DMARC alignment mode — Are SPF and DKIM alignment modes set appropriately?',
+              'DMARC subdomain policy — Is a subdomain policy (sp) configured?',
+              'BIMI record presence — Is a Brand Indicators for Message Identification record present?'
+            ],
+            why: 'Without proper email authentication, your domain is vulnerable to spoofing. Attackers can send email that appears to come from your domain. With weak DMARC (p=none), even a correctly configured SPF and DKIM setup provides no spoofing protection.'
+          },
+          {
+            num: '06', name: 'Web Presence', count: 9,
+            what: 'DNS doesn\'t stop at email. DNSSnuff checks your web presence — HTTP and HTTPS reachability, SSL validity, redirect chains, and security headers.',
+            checks: [
+              'HTTP reachability — Does the domain respond over HTTP?',
+              'HTTPS reachability — Does the domain respond over HTTPS?',
+              'HTTP to HTTPS redirect — Is HTTP automatically redirected to HTTPS?',
+              'www to root redirect — Is the www subdomain correctly redirected?',
+              'SSL certificate validity — Is the SSL certificate valid and trusted?',
+              'SSL certificate expiry — How many days until the certificate expires?',
+              'Certificate chain completeness — Is the full certificate chain served correctly?',
+              'HSTS header presence — Is HTTP Strict Transport Security correctly configured?',
+              'Redirect chain depth — Are there excessive redirect hops that could affect performance and SEO?'
+            ],
+            why: 'A broken redirect chain, an expiring certificate, or a missing HSTS header are often invisible until something breaks badly. Browser trust warnings, search ranking penalties, and broken user journeys are all avoidable with routine checks.'
+          },
+          {
+            num: '07', name: 'DNSSEC', count: 5,
+            what: 'DNSSEC adds cryptographic signatures to DNS records, allowing resolvers to verify that records haven\'t been tampered with. DNSSnuff verifies the full chain of trust.',
+            checks: [
+              'DNSSEC enabled — Is DNSSEC signing active for the zone?',
+              'DS record present — Is a Delegation Signer record in the parent zone?',
+              'DNSKEY record validity — Are DNSKEY records syntactically valid and correctly typed?',
+              'RRSIG validity — Are Resource Record Signatures present and within their validity period?',
+              'Chain of trust verification — Can a validating resolver build a complete chain of trust to the root?'
+            ],
+            why: 'DNSSEC failures can make your domain unresolvable for users behind security-conscious resolvers (including many enterprise networks and ISPs). A misconfigured DNSSEC signature causes complete DNS resolution failure — often harder to diagnose than a simple outage.'
+          },
+          {
+            num: '08', name: 'Blacklists', count: 6,
+            what: 'Real-time block lists (RBLs) are databases of IP addresses and domains known to send spam or malware. Cross-referenced against 50+ RBL databases.',
+            checks: [
+              'Domain RBL listing — Is the root domain listed on any domain-based block list?',
+              'MX IP listing — Are any mail server IPs listed on IP-based block lists?',
+              'Sending IP listing — Are known sending IPs listed?',
+              'URI RBL check — Is the domain listed on URI-based block lists used by spam filters?',
+              'SURBL listing — Is the domain in SURBL databases (used by major email platforms)?',
+              'SpamCop listing — Is the domain or IP listed in SpamCop?'
+            ],
+            why: 'A single blacklist listing can cause 20–40% of your outbound email to go directly to spam — without any bounce message or error. You won\'t know it\'s happening unless you check.'
+          }
+        ].map(cat => (
+          <div class="check-category">
+            <div class="cat-header">
+              <span class="cat-num">{cat.num}</span>
+              <div>
+                <h3>{cat.name} <span class="count-badge">{cat.count} checks{cat.star ? ' ⭐' : ''}</span></h3>
+              </div>
+            </div>
+            <p class="cat-what">{cat.what}</p>
+            <ul class="check-list">
+              {cat.checks.map(c => <li>{c}</li>)}
+            </ul>
+            <div class="cat-why">
+              <strong>Why it matters:</strong> {cat.why}
+            </div>
+          </div>
+        ))}
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How results are presented -->
+  <section style="background:var(--bg-2); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
+    <div class="container">
+      <h2 class="text-center" style="margin-bottom:2.5rem">How results are presented</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Health Score &amp; Letter Grade</h4>
+          <p>Every report produces a single score (0–100) and a letter grade (A+ through F). At-a-glance domain health without reading every check.</p>
+        </div>
+        <div class="card">
+          <h4>"Fix This First" Priority Stack</h4>
+          <p>Failed checks ranked by severity and impact. Critical issues appear at the top. Best-practice improvements appear below.</p>
+        </div>
+        <div class="card">
+          <h4>Plain-English Verdicts</h4>
+          <p>Every failed check includes a specific explanation of what's wrong and what to fix — not just a status code.</p>
+        </div>
+        <div class="card">
+          <h4>Shareable Report URLs</h4>
+          <p>Every report has a URL you can share with a colleague, client, or developer without them needing an account.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="text-center">
+    <div class="container">
+      <h2>See what 72 checks find on your domain.</h2>
+      <p style="margin:1rem auto 2rem; max-width:500px">Free forever. No sign-up. Results in under 5 seconds.</p>
+      <a href="/" class="btn btn-primary">Run Free Report →</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.checks-grid { display: flex; flex-direction: column; gap: 3rem; }
+.check-category { border-left: 3px solid var(--border); padding-left: 2rem; }
+.check-category:hover { border-left-color: var(--accent); }
+.cat-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+.cat-num { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; padding: 0.25rem 0.5rem; flex-shrink: 0; margin-top: 0.2rem; }
+.cat-header h3 { font-size: 1.25rem; margin: 0; }
+.count-badge { font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-left: 0.5rem; }
+.cat-what { margin-bottom: 1rem; }
+.cat-why { margin-top: 1rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; font-size: 0.9rem; color: var(--text-muted); }
+.cat-why strong { color: var(--text); }
+.check-list li { font-size: 0.875rem; }
+</style>

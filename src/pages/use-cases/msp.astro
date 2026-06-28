@@ -1,0 +1,170 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="DNS Health Reports for MSPs & Agencies — DNSSnuff"
+  description="White-label DNS health reports for managed service providers and agencies. Run 72-check domain audits under your own brand. Permanent URLs, REST API, white-label PDF. Agency from $49/month."
+  currentPath="/use-cases/msp"
+>
+  <Nav slot="nav" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">For MSPs &amp; Agencies</div>
+      <h1>DNS health reports your clients will actually read.</h1>
+      <p>DNSSnuff Agency includes white-label PDF reporting, permanent shareable URLs, REST API access, and unlimited checks. Run professional DNS audits across your entire client base — under your own brand.</p>
+      <div class="hero-ctas">
+        <a href="/auth/sign-up" class="btn btn-primary">Start Free Trial →</a>
+        <a href="/contact" class="btn btn-outline">Contact Sales →</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-narrow">
+      <h2>DNS problems cost your clients money. Catching them early costs you nothing.</h2>
+      <div style="display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem">
+        <p>DNS misconfiguration is responsible for a disproportionate share of email delivery failures, security incidents, and unexplained downtime.</p>
+        <p>Most of your clients have never had a DNS audit. Most have at least one critical misconfiguration they don't know about — a spoofable DMARC policy, a blacklist listing, a certificate about to expire, or a mail server that's been misconfigured since the original setup.</p>
+        <p>You can find all of it in 5 seconds, explain it in plain English, and deliver it as a branded report.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <h2 style="margin-bottom:2.5rem">What MSPs get with Agency</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>White-label PDF reports</h4>
+          <p>Every report generated under your account carries your logo and branding. Clients see your name, not DNSSnuff's. Deliver professional DNS health audits as part of your standard service — without building anything yourself.</p>
+        </div>
+        <div class="card">
+          <h4>Permanent shareable URLs</h4>
+          <p>Agency plan reports never expire. Share a permanent link with any client — no DNSSnuff login required to view. Your branding, permanent access.</p>
+        </div>
+        <div class="card">
+          <h4>REST API + webhooks</h4>
+          <p>Pull DNS health check data programmatically. Integrate into your PSA, RMM, or client reporting portal. Build custom dashboards. Automate the boring parts.</p>
+        </div>
+        <div class="card">
+          <h4>Unlimited domain checks</h4>
+          <p>Check as many domains as you need, as often as you need. No per-check limits, no overages, no throttling on your client estate.</p>
+        </div>
+        <div class="card">
+          <h4>12-month report history</h4>
+          <p>See a domain's health score over time. Demonstrate to clients that their DNS health has improved since you took over. Use historical data to correlate a delivery issue with a DNS change.</p>
+        </div>
+        <div class="card">
+          <h4>Daily scheduled checks + alerts</h4>
+          <p>DNSSnuff monitors every domain in your dashboard every 24 hours. The moment anything changes — a new blacklist listing, an SPF update, an expiring certificate — you'll know before your client does.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 style="margin-bottom:2.5rem">How to use it with clients</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Onboarding audit</h4>
+          <p>Run a DNSSnuff report on every new client domain at onboarding. Identify quick wins — a DMARC policy upgrade, a missing DKIM record, a certificate renewal — that you can fix immediately. Start the relationship by finding something useful on day one.</p>
+        </div>
+        <div class="card">
+          <h4>Quarterly DNS review</h4>
+          <p>Deliver a branded DNS health report to each client every quarter. Show the current score, what changed, and what you've fixed. This is a five-minute conversation that demonstrates ongoing value.</p>
+        </div>
+        <div class="card">
+          <h4>Pre-migration check</h4>
+          <p>Before any infrastructure migration — email platform change, hosting move, new SSL certificate — run a before-and-after report. Have a documented baseline. Have a documented confirmation that the migration succeeded.</p>
+        </div>
+        <div class="card">
+          <h4>Business development</h4>
+          <p>Run a free DNSSnuff report on a prospect's domain before a sales meeting. Walk in with specific findings — a spoofable DMARC policy, an active blacklist listing, an expiring certificate. Convert a generic pitch into concrete findings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <h2 style="margin-bottom:2rem">Example report findings</h2>
+      <p style="margin-bottom:2rem;font-size:0.875rem;font-style:italic">These are representative — not specific to any named domain.</p>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div class="finding critical">
+          <span class="finding-level">Critical</span>
+          <div>
+            <strong>DMARC policy not enforced</strong>
+            <p>DMARC is set to <code>p=none</code>. Your client's domain can be spoofed by anyone. Changing to <code>p=reject</code> takes 2 minutes and eliminates the risk entirely.</p>
+          </div>
+        </div>
+        <div class="finding warning">
+          <span class="finding-level">Warning</span>
+          <div>
+            <strong>SPF softfail</strong>
+            <p>SPF is using <code>~all</code> instead of <code>-all</code>. Unauthorised senders can deliver email from this domain that some recipients will accept. A one-line SPF update fixes this.</p>
+          </div>
+        </div>
+        <div class="finding notice">
+          <span class="finding-level">Notice</span>
+          <div>
+            <strong>SSL certificate expiring in 14 days</strong>
+            <p>The certificate for mail.clientdomain.com expires in 14 days. Browser warnings will follow. Renewal should be scheduled immediately.</p>
+          </div>
+        </div>
+        <div class="finding critical">
+          <span class="finding-level">Critical</span>
+          <div>
+            <strong>Active blacklist listing</strong>
+            <p>The mail server IP 203.0.113.47 is listed on Spamhaus PBL. Email from this domain is being blocked or deferred by a significant proportion of receiving mail servers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-narrow text-center">
+      <h2>Agency — $49/month</h2>
+      <p style="margin:1rem auto 0.5rem">Monthly billing. Or $490/year (equivalent to $40.83/mo — saves 17%).</p>
+      <p style="margin-bottom:2rem;font-size:0.875rem">One Agency subscription covers your entire client dashboard. White-label reporting included at no extra charge. For large client estates or custom requirements, <a href="/contact">contact us</a>.</p>
+      <a href="/auth/sign-up" class="btn btn-primary">Start Free Trial →</a>
+      <p style="margin-top:0.75rem;font-size:0.875rem;color:var(--text-muted)">No card required to start. Cancel any time.</p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.finding {
+  display: flex;
+  gap: 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  align-items: flex-start;
+}
+.finding.critical { border-left: 3px solid var(--red); }
+.finding.warning { border-left: 3px solid var(--yellow); }
+.finding.notice { border-left: 3px solid var(--accent-blue); }
+.finding-level {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-top: 0.15rem;
+}
+.finding.critical .finding-level { background: rgba(239,68,68,0.1); color: var(--red); }
+.finding.warning .finding-level { background: rgba(234,179,8,0.1); color: var(--yellow); }
+.finding.notice .finding-level { background: rgba(56,189,248,0.1); color: var(--accent-blue); }
+.finding strong { color: var(--text); display: block; margin-bottom: 0.25rem; }
+.finding p { margin: 0; font-size: 0.9rem; }
+</style>

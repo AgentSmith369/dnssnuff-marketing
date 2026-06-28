@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="DNSSnuff vs MxToolbox — DNS Diagnostic Comparison"
+  description="Comparing DNSSnuff and MxToolbox for DNS health checks and email diagnostics. See what each tool checks, how results are presented, and which is right for your use case."
+  currentPath="/alternatives/mxtoolbox"
+>
+  <Nav slot="nav" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Alternatives</div>
+      <h1>Looking for an MxToolbox alternative?</h1>
+      <p>MxToolbox is one of the longest-running DNS lookup tools on the web. DNSSnuff takes a different approach: fewer manual lookups, more automated checks, and results that tell you what to do — not just what's there.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 style="margin-bottom:2rem">Feature comparison</h2>
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>DNSSnuff</th>
+              <th>MxToolbox</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Checks per report</td><td>72 automated</td><td>Manual, per-lookup</td></tr>
+            <tr><td>Email authentication checks</td><td class="check-yes">14 (SPF, DKIM, DMARC, BIMI)</td><td class="text-muted">Separate tools per record</td></tr>
+            <tr><td>Plain-English verdicts</td><td class="check-yes">✓ Every failed check</td><td class="check-no">✗ Raw data with status codes</td></tr>
+            <tr><td>Health score &amp; letter grade</td><td class="check-yes">✓</td><td class="check-no">✗</td></tr>
+            <tr><td>"Fix This First" priority</td><td class="check-yes">✓</td><td class="check-no">✗</td></tr>
+            <tr><td>Shareable report URL</td><td class="check-yes">✓</td><td class="text-muted">Limited</td></tr>
+            <tr><td>DNSSEC verification</td><td class="check-yes">✓ Full chain of trust</td><td class="text-muted">Basic</td></tr>
+            <tr><td>Blacklist checks</td><td class="check-yes">✓ 50+ RBLs</td><td class="check-yes">✓ Extensive</td></tr>
+            <tr><td>Monitoring &amp; alerts</td><td class="check-yes">✓ Pro ($19/month)</td><td class="text-muted">✓ Paid plans</td></tr>
+            <tr><td>White-label reports</td><td class="check-yes">✓ Agency ($49/month)</td><td class="check-no">✗</td></tr>
+            <tr><td>API access</td><td class="check-yes">✓ Agency</td><td class="text-muted">✓ Paid</td></tr>
+            <tr><td>Free tier</td><td class="check-yes">✓ Full 72-check report</td><td class="text-muted">✓ Individual lookups</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:1rem">MxToolbox is a lookup tool.<br/>DNSSnuff is a diagnostic tool.</h3>
+          <p>MxToolbox is built around individual lookups — you choose which record to check, it shows you the raw result. It's powerful if you know exactly what you're looking for and can interpret the output.</p>
+          <p style="margin-top:1rem">DNSSnuff runs all 72 checks automatically and tells you what the results mean. One report covers everything — you don't need to check SPF, DMARC, MX records, and DNSSEC separately.</p>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:1.5rem">
+            <h4>When MxToolbox makes sense:</h4>
+            <ul class="check-list" style="margin-top:0.75rem">
+              <li>You need to check a specific record type quickly</li>
+              <li>You're comfortable reading raw DNS data</li>
+              <li>You need extensive blacklist lookup capabilities specifically</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>When DNSSnuff makes sense:</h4>
+            <ul class="check-list" style="margin-top:0.75rem">
+              <li>You want a complete diagnostic in one report</li>
+              <li>You need plain-English explanations of what's wrong and how to fix it</li>
+              <li>You're managing multiple domains and want monitoring with change alerts</li>
+              <li>You're an MSP who needs white-label reports for clients</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="text-center" style="background:var(--bg-2);border-top:1px solid var(--border)">
+    <div class="container">
+      <h2>See what 72 automated checks find on your domain.</h2>
+      <p style="margin:1rem auto 2rem;max-width:480px">Free. No account required. Results in under 5 seconds.</p>
+      <a href="/" class="btn btn-primary">Run a Free DNSSnuff Report →</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.text-muted { color: var(--text-muted); }
+table td:not(:first-child), table th:not(:first-child) { text-align: center; }
+</style>

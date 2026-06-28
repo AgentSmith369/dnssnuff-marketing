@@ -1,0 +1,117 @@
+---
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo"><span>◆</span> DNSSnuff</a>
+        <p>72 automated diagnostic checks across DNS health, email authentication, DNSSEC, and blacklists — in plain English. Free reports, always. Pro from $19/month. Agency from $49/month.</p>
+        <a href="mailto:hello@dnssnuff.com" class="footer-email">hello@dnssnuff.com</a>
+      </div>
+      <nav class="footer-nav">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/">Run a Report</a></li>
+            <li><a href="/features">Features</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/docs">API Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Use Cases</h4>
+          <ul>
+            <li><a href="/use-cases/developers">For Developers</a></li>
+            <li><a href="/use-cases/msp">For MSPs &amp; Agencies</a></li>
+            <li><a href="/use-cases/it-teams">For IT Teams</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/blog/what-is-dmarc">What is DMARC?</a></li>
+            <li><a href="/blog/spf-dkim-dmarc-guide">SPF, DKIM &amp; DMARC Guide</a></li>
+            <li><a href="/docs">Documentation</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/terms-of-service">Terms of Service</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/cookie-policy">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 DNSSnuff. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 4rem 0 2rem;
+  margin-top: 4rem;
+  background: var(--bg);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 4rem;
+  margin-bottom: 3rem;
+}
+.footer-brand { display: flex; flex-direction: column; gap: 1rem; }
+.footer-logo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent) !important;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.footer-logo span { font-size: 0.7em; }
+.footer-brand p { font-size: 0.875rem; line-height: 1.65; color: var(--text-muted); }
+.footer-email { color: var(--text-muted) !important; font-size: 0.875rem; }
+.footer-email:hover { color: var(--accent) !important; }
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+}
+.footer-col h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-col a { color: var(--text-muted); font-size: 0.875rem; transition: color 0.15s; }
+.footer-col a:hover { color: var(--accent); }
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.footer-bottom p { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+
+@media (max-width: 900px) {
+  .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-nav { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .footer-nav { grid-template-columns: 1fr; }
+}
+</style>

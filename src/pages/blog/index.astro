@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="Blog — DNSSnuff"
+  description="DNS health, email authentication, and deliverability guides from the DNSSnuff team. Plain-English explanations of the records that keep your domain working."
+  currentPath="/blog"
+>
+  <Nav slot="nav" currentPath="/blog" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Blog</div>
+      <h1>DNS & email authentication,<br/>explained plainly.</h1>
+      <p>Guides and explainers on the DNS records that matter most — written for people who need to understand them, not just look them up.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="blog-grid">
+
+        <a href="/blog/what-is-dmarc" class="blog-card">
+          <div class="post-meta">Email Authentication · 8 min read · June 2026</div>
+          <h2>What Is DMARC? A Plain-English Guide</h2>
+          <p>DMARC prevents your domain from being spoofed. This guide explains what it is, how it works, and how to set it up correctly — without the jargon.</p>
+          <span class="read-more">Read article →</span>
+        </a>
+
+        <a href="/blog/spf-dkim-dmarc-guide" class="blog-card">
+          <div class="post-meta">Email Authentication · 12 min read · June 2026</div>
+          <h2>SPF, DKIM, and DMARC: The Complete Email Authentication Guide</h2>
+          <p>SPF, DKIM, and DMARC are the three DNS records that control email authentication. This guide explains each one, how they work together, and how to set them up correctly.</p>
+          <span class="read-more">Read article →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="text-center" style="padding-top:0">
+    <div class="container">
+      <p>Check your email authentication records now.</p>
+      <a href="/" class="btn btn-primary" style="margin-top:1rem">Run Free Report →</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: border-color 0.15s;
+  text-decoration: none;
+}
+.blog-card:hover { border-color: var(--accent); }
+.blog-card h2 { font-size: 1.3rem; color: var(--text); }
+.blog-card p { color: var(--text-muted); font-size: 0.9rem; flex: 1; }
+.post-meta { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.read-more { color: var(--accent); font-size: 0.875rem; font-weight: 600; margin-top: auto; }
+</style>

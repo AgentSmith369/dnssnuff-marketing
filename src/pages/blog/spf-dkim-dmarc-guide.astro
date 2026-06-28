@@ -1,0 +1,151 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="SPF, DKIM, and DMARC: The Complete Email Authentication Guide | DNSSnuff"
+  description="SPF, DKIM, and DMARC are the three DNS records that control email authentication. This guide explains each one, how they work together, and how to set them up correctly."
+  currentPath="/blog/spf-dkim-dmarc-guide"
+>
+  <Nav slot="nav" currentPath="/blog" />
+
+  <article>
+    <header class="article-header">
+      <div class="container-narrow">
+        <a href="/blog" class="back-link">← Blog</a>
+        <div class="section-label" style="margin-top:1.5rem">Email Authentication</div>
+        <h1>SPF, DKIM, and DMARC: The Complete Email Authentication Guide</h1>
+        <p class="page-meta">June 2026 · 12 minute read</p>
+      </div>
+    </header>
+
+    <div class="container-narrow article-body">
+
+      <p>Email authentication is one of the most important — and most frequently broken — areas of DNS configuration.</p>
+      <p>Three records control whether email from your domain is trusted by the world's mail servers: SPF, DKIM, and DMARC. Together, they determine whether your email reaches the inbox, goes to spam, or gets rejected entirely. They also determine whether your domain can be spoofed by someone sending phishing emails that appear to come from you.</p>
+      <p>Most domains have at least one of these misconfigured. Many have none of them correctly in place.</p>
+
+      <h2>SPF — Sender Policy Framework</h2>
+
+      <h3>What it does</h3>
+      <p>SPF answers the question: <em>which servers are authorised to send email for this domain?</em></p>
+      <p>It's a DNS TXT record that lists the IP addresses and services permitted to send email claiming to be from your domain. When a receiving mail server gets an email from you, it checks your SPF record to see if the sending server is on the approved list.</p>
+
+      <h3>What it looks like</h3>
+      <pre><code>v=spf1 include:_spf.google.com include:sendgrid.net ip4:203.0.113.10 -all</code></pre>
+      <ul class="article-list">
+        <li><code>v=spf1</code> — Required. Identifies this as an SPF record.</li>
+        <li><code>include:_spf.google.com</code> — Authorise all IP addresses in Google's SPF record.</li>
+        <li><code>include:sendgrid.net</code> — Authorise SendGrid for transactional email.</li>
+        <li><code>ip4:203.0.113.10</code> — Authorise a specific IP address.</li>
+        <li><code>-all</code> — Reject email from any server not explicitly listed.</li>
+      </ul>
+
+      <h3>The 10-lookup limit</h3>
+      <p>SPF allows a maximum of 10 DNS lookups during evaluation. Each <code>include:</code>, <code>a:</code>, and <code>mx:</code> mechanism can trigger additional lookups. Exceeding 10 causes a PermError, which many receivers treat as an SPF failure.</p>
+      <p>This is one of the most common SPF problems for organisations using multiple email services. The fix is SPF flattening — replacing <code>include:</code> statements with explicit IP addresses, reducing the lookup count.</p>
+
+      <h3><code>~all</code> vs <code>-all</code></h3>
+      <ul class="article-list">
+        <li><code>~all</code> (softfail) — Email from unauthorised servers is flagged but may still be delivered.</li>
+        <li><code>-all</code> (fail) — Email from unauthorised servers is rejected.</li>
+        <li><code>?all</code> (neutral) — No assertion about unauthorised servers.</li>
+      </ul>
+      <p>Use <code>-all</code>. Softfail provides reduced protection and is treated inconsistently by different mail servers.</p>
+
+      <h3>Only one SPF record</h3>
+      <p>You can only have one TXT record beginning with <code>v=spf1</code>. If you have multiple, SPF evaluation fails with a PermError. If you need to authorise multiple sources, combine them into a single record.</p>
+
+      <h2>DKIM — DomainKeys Identified Mail</h2>
+
+      <h3>What it does</h3>
+      <p>DKIM answers the question: <em>has this email been tampered with, and was it sent by a server authorised to sign for this domain?</em></p>
+      <p>Your mail server adds a cryptographic signature to outgoing email. The signature is generated using a private key. The corresponding public key is published in your DNS. Receiving servers look up the public key and use it to verify the signature.</p>
+
+      <h3>What it looks like in DNS</h3>
+      <p>DKIM records live at <code>&lt;selector&gt;._domainkey.&lt;domain&gt;</code>. The selector is typically defined by your email platform.</p>
+      <pre><code>google._domainkey.yourdomain.com  TXT  "v=DKIM1; k=rsa; p=MIGfMA0GCSq..."</code></pre>
+
+      <h3>Key length</h3>
+      <p>DKIM keys should be at least 1024 bits. 2048 bits is now strongly recommended — some mail platforms reject email signed with shorter keys.</p>
+
+      <h3>DKIM doesn't protect the From: address</h3>
+      <p>DKIM signs the message and verifies the signing domain (<code>d=</code> in the DKIM-Signature header). The signing domain doesn't have to match the From: address. DMARC enforces alignment between the two — this is why DMARC is necessary for complete protection.</p>
+
+      <h2>DMARC — Domain-based Message Authentication, Reporting &amp; Conformance</h2>
+
+      <h3>What it does</h3>
+      <p>DMARC does three things:</p>
+      <ul class="article-list">
+        <li><strong>Policy</strong> — Tells receiving servers what to do with email that fails SPF and DKIM alignment.</li>
+        <li><strong>Alignment</strong> — Requires the domain in the From: header to align with the domain that passed SPF or DKIM.</li>
+        <li><strong>Reporting</strong> — Sends aggregate reports back to you, showing authentication results for email claiming to be from your domain.</li>
+      </ul>
+
+      <h3>What it looks like</h3>
+      <pre><code>_dmarc.yourdomain.com  TXT  "v=DMARC1; p=reject; rua=mailto:dmarc@yourdomain.com; pct=100;"</code></pre>
+
+      <h3>DMARC alignment</h3>
+      <p>DMARC requires the From: domain to align with the authenticated domain. This is what prevents attackers from passing SPF on their own domain while spoofing yours in the From: header.</p>
+      <ul class="article-list">
+        <li><strong>Strict alignment</strong> (<code>aspf=s</code>, <code>adkim=s</code>) — The domains must match exactly.</li>
+        <li><strong>Relaxed alignment</strong> (<code>aspf=r</code>, <code>adkim=r</code>) — Subdomains of the authenticated domain are accepted. This is the default and is usually appropriate.</li>
+      </ul>
+
+      <h2>How SPF, DKIM, and DMARC work together</h2>
+
+      <p>Think of them as three layers:</p>
+      <ul class="article-list">
+        <li><strong>Layer 1 — SPF</strong> controls which servers can <em>send</em> email for your domain.</li>
+        <li><strong>Layer 2 — DKIM</strong> verifies that email <em>hasn't been tampered with</em> and was <em>signed</em> by an authorised server.</li>
+        <li><strong>Layer 3 — DMARC</strong> ties them together: requires at least one to <em>align with the From: domain</em>, and specifies <em>what happens when they don't</em>.</li>
+      </ul>
+
+      <p>An email passes DMARC if:</p>
+      <ul class="article-list">
+        <li>SPF passes <strong>and</strong> the SPF-authenticated domain aligns with the From: domain, OR</li>
+        <li>DKIM passes <strong>and</strong> the DKIM signing domain aligns with the From: domain</li>
+      </ul>
+      <p>If neither aligns, DMARC fails — and your policy determines what happens next.</p>
+
+      <h2>Setting up email authentication: recommended order</h2>
+
+      <ol class="article-ol">
+        <li><strong>Set up SPF first</strong> — List all your legitimate sending sources. End with <code>-all</code>.</li>
+        <li><strong>Set up DKIM</strong> — Configure signing in your email platform. Publish the public key in DNS.</li>
+        <li><strong>Set up DMARC at <code>p=none</code></strong> with a reporting address — Collect data before enforcing.</li>
+        <li><strong>Review aggregate reports</strong> — Confirm all legitimate senders are covered by SPF and DKIM.</li>
+        <li><strong>Move to <code>p=quarantine</code></strong> — Gradually (start with <code>pct=10</code>).</li>
+        <li><strong>Move to <code>p=reject</code></strong> — Full enforcement. Your domain is now spoofing-resistant.</li>
+      </ol>
+
+      <div class="article-cta">
+        <h3>Check your email authentication now</h3>
+        <p>Run a free DNSSnuff report on your domain. The Email Authentication section checks all 14 relevant points — SPF syntax and policy, DKIM record discovery and key length, DMARC policy strength and alignment, and BIMI.</p>
+        <a href="/" class="btn btn-primary">Run Free Report →</a>
+      </div>
+
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.article-header { padding: 4rem 0 2rem; }
+.back-link { color: var(--text-muted); font-size: 0.875rem; }
+.back-link:hover { color: var(--accent); }
+.article-body { padding-bottom: 4rem; }
+.article-body h2 { margin: 2.5rem 0 1rem; }
+.article-body h3 { margin: 1.75rem 0 0.75rem; color: var(--text); }
+.article-body p { margin-bottom: 1rem; }
+.article-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; margin: 1rem 0 1.5rem; }
+.article-list li { display: flex; gap: 0.75rem; color: var(--text-muted); font-size: 0.9rem; align-items: flex-start; }
+.article-list li::before { content: '—'; color: var(--text-muted); flex-shrink: 0; }
+.article-ol { display: flex; flex-direction: column; gap: 0.75rem; padding-left: 1.5rem; margin: 1rem 0 1.5rem; color: var(--text-muted); font-size: 0.9rem; }
+.article-ol li { padding-left: 0.5rem; }
+.article-cta { background: var(--bg-2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 2rem; margin-top: 3rem; }
+.article-cta h3 { margin-bottom: 0.75rem; }
+.article-cta p { margin-bottom: 1.5rem; }
+</style>

@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="DNSSnuff vs DNS Checker — DNS Diagnostic Comparison"
+  description="Comparing DNSSnuff and DNS Checker. Both check DNS, but they solve different problems. Here's what each tool does and when to use which."
+  currentPath="/alternatives/dnschecker"
+>
+  <Nav slot="nav" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Alternatives</div>
+      <h1>Looking for a DNS Checker alternative?</h1>
+      <p>DNS Checker shows you whether a DNS record has propagated globally. DNSSnuff checks whether your DNS is correctly configured. Different tools. Different problems.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="grid-2">
+        <div class="card distinction-card">
+          <div class="badge badge-blue" style="margin-bottom:1rem">DNS Checker</div>
+          <h3>Solves a propagation problem.</h3>
+          <p style="margin-top:0.75rem">Shows you whether a specific DNS record (A, MX, TXT, etc.) has propagated to resolvers in different countries. Useful after making a DNS change and wanting to confirm it's visible globally.</p>
+        </div>
+        <div class="card distinction-card">
+          <div class="badge badge-accent" style="margin-bottom:1rem">DNSSnuff</div>
+          <h3>Solves a configuration problem.</h3>
+          <p style="margin-top:0.75rem">Checks whether your DNS is correctly configured — not just whether it's propagated, but whether what's propagated is right. 72 checks across everything that matters.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 style="margin-bottom:2rem">Feature comparison</h2>
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>DNSSnuff</th>
+              <th>DNS Checker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Global propagation check</td><td class="check-no">✗</td><td class="check-yes">✓ Primary feature</td></tr>
+            <tr><td>Configuration diagnosis</td><td class="check-yes">✓ 72 automated checks</td><td class="check-no">✗ Shows records only</td></tr>
+            <tr><td>Email authentication checks</td><td class="check-yes">✓ 14 checks</td><td class="check-no">✗ Shows raw records only</td></tr>
+            <tr><td>Plain-English verdicts</td><td class="check-yes">✓</td><td class="check-no">✗ Raw data</td></tr>
+            <tr><td>Health score</td><td class="check-yes">✓</td><td class="check-no">✗</td></tr>
+            <tr><td>"Fix This First" priority</td><td class="check-yes">✓</td><td class="check-no">✗</td></tr>
+            <tr><td>Blacklist checks</td><td class="check-yes">✓ 50+ RBLs</td><td class="check-no">✗</td></tr>
+            <tr><td>DNSSEC verification</td><td class="check-yes">✓ Full chain</td><td class="check-no">✗</td></tr>
+            <tr><td>Monitoring &amp; alerts</td><td class="check-yes">✓ Pro</td><td class="check-no">✗</td></tr>
+            <tr><td>White-label reports</td><td class="check-yes">✓ Agency</td><td class="check-no">✗</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-narrow">
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h3 style="margin-bottom:1rem">Use both — they're not really competitors.</h3>
+        <p>These tools serve different purposes.</p>
+        <p style="margin-top:0.75rem">Use <strong style="color:var(--text)">DNS Checker</strong> when you've made a DNS change and want to confirm it's propagated to resolvers in specific countries.</p>
+        <p style="margin-top:0.75rem">Use <strong style="color:var(--text)">DNSSnuff</strong> when you want to know whether your DNS configuration is correct — whether what's propagated is actually going to work properly.</p>
+        <p style="margin-top:0.75rem">The most complete workflow: run a DNSSnuff report to confirm your configuration is correct, then use DNS Checker to confirm it's propagated globally.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="text-center" style="background:var(--bg-2);border-top:1px solid var(--border)">
+    <div class="container">
+      <h2>Check your DNS configuration right now.</h2>
+      <p style="margin:1rem auto 2rem;max-width:480px">Free. No account required. Results in under 5 seconds.</p>
+      <a href="/" class="btn btn-primary">Run a Free DNSSnuff Report →</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.distinction-card { text-align: left; }
+table td:not(:first-child), table th:not(:first-child) { text-align: center; }
+</style>

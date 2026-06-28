@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Cookie Policy — DNSSnuff" description="DNSSnuff cookie policy." currentPath="/cookie-policy">
+  <Nav slot="nav" />
+  <section>
+    <div class="container-narrow">
+      <h1>Cookie Policy</h1>
+      <p class="page-meta">Last updated: June 2026</p>
+      <div class="legal-body">
+        <h2>Cookies we use</h2>
+        <p>DNSSnuff uses the following cookies:</p>
+
+        <h3>Essential cookies</h3>
+        <p>Session cookies for authentication and maintaining your login state. These are required for the service to function and cannot be opted out of.</p>
+
+        <h3>Analytics cookies</h3>
+        <p>Google Analytics 4 (<code>_ga</code>, <code>_ga_*</code>) — used to understand how visitors use the site. No personally identifiable information is collected. You can opt out of Google Analytics by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</p>
+
+        <h2>Managing cookies</h2>
+        <p>You can control cookies through your browser settings. Disabling essential cookies will prevent you from using authenticated features (Pro/Agency dashboard). Disabling analytics cookies has no effect on core functionality.</p>
+
+        <h2>Contact</h2>
+        <p>For cookie-related enquiries: <a href="mailto:hello@dnssnuff.com">hello@dnssnuff.com</a></p>
+      </div>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Layout>
+<style>
+.legal-body h2 { margin: 2rem 0 0.75rem; font-size: 1.2rem; }
+.legal-body h3 { margin: 1.5rem 0 0.5rem; font-size: 1rem; color: var(--text); }
+.legal-body p { margin-bottom: 0.75rem; }
+</style>

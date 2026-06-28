@@ -1,0 +1,282 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="Pricing — DNSSnuff"
+  description="DNSSnuff runs 72 DNS checks and tells you what to fix. Start free — no card needed. Pro from $19/month. Agency from $49/month."
+  currentPath="/pricing"
+>
+  <Nav slot="nav" currentPath="/pricing" />
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Pricing</div>
+      <h1>Know exactly what's wrong with your DNS.<br/>Before your visitors do.</h1>
+      <p>DNSSnuff runs 72 checks across every layer of your DNS configuration and tells you what to fix, in what order, with a single letter grade. Start free — no card needed.</p>
+
+      <!-- Billing toggle -->
+      <div class="billing-toggle">
+        <span id="label-monthly" class="toggle-label active">Monthly</span>
+        <label class="switch" aria-label="Toggle annual billing">
+          <input type="checkbox" id="billing-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span id="label-annual" class="toggle-label">Annually <span class="badge badge-green">Save 17%</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plan cards -->
+  <section style="padding-top:0">
+    <div class="container">
+      <div class="pricing-grid">
+
+        <!-- Free -->
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="price">$0 <span>/ month</span></div>
+          <div class="price-equiv">&nbsp;</div>
+          <p class="plan-desc">For developers and solo site owners who need occasional DNS checks.</p>
+          <ul>
+            <li><span class="icon check-yes">✓</span> 3 domain checks per month</li>
+            <li><span class="icon check-yes">✓</span> All 72 DNS checks</li>
+            <li><span class="icon check-yes">✓</span> Health Score + letter grade</li>
+            <li><span class="icon check-yes">✓</span> Fix This First priority stack</li>
+            <li><span class="icon check-yes">✓</span> Shareable URLs (24-hour expiry)</li>
+            <li><span class="icon check-no">✗</span> Report history</li>
+            <li><span class="icon check-no">✗</span> PDF export</li>
+            <li><span class="icon check-no">✗</span> API access</li>
+          </ul>
+          <a href="/" class="btn btn-outline">Run your first check</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="price" id="pro-price">$19 <span>/ month</span></div>
+          <div class="price-equiv" id="pro-equiv">&nbsp;</div>
+          <p class="plan-desc">For freelancers and developers managing client sites on a regular basis.</p>
+          <ul>
+            <li><span class="icon check-yes">✓</span> 25 domain checks per month</li>
+            <li><span class="icon check-yes">✓</span> All 72 DNS checks</li>
+            <li><span class="icon check-yes">✓</span> Health Score + letter grade</li>
+            <li><span class="icon check-yes">✓</span> Fix This First + fix impact scores</li>
+            <li><span class="icon check-yes">✓</span> Shareable URLs (30-day expiry)</li>
+            <li><span class="icon check-yes">✓</span> 90-day report history</li>
+            <li><span class="icon check-yes">✓</span> PDF export + JSON export</li>
+            <li><span class="icon check-yes">✓</span> Copy-ready DNS record snippets</li>
+            <li><span class="icon check-no">✗</span> White-label reports</li>
+            <li><span class="icon check-no">✗</span> API access</li>
+          </ul>
+          <a href="/auth/sign-up" class="btn btn-primary">Start free trial</a>
+        </div>
+
+        <!-- Agency -->
+        <div class="pricing-card">
+          <div class="plan-name">Agency</div>
+          <div class="price" id="agency-price">$49 <span>/ month</span></div>
+          <div class="price-equiv" id="agency-equiv">&nbsp;</div>
+          <p class="plan-desc">For web agencies running DNS audits across multiple client accounts.</p>
+          <ul>
+            <li><span class="icon check-yes">✓</span> Unlimited domain checks</li>
+            <li><span class="icon check-yes">✓</span> All 72 DNS checks</li>
+            <li><span class="icon check-yes">✓</span> Health Score + letter grade</li>
+            <li><span class="icon check-yes">✓</span> Fix This First + fix impact scores</li>
+            <li><span class="icon check-yes">✓</span> Shareable URLs — permanent, never expire</li>
+            <li><span class="icon check-yes">✓</span> 12-month report history</li>
+            <li><span class="icon check-yes">✓</span> White-label PDF export (your logo)</li>
+            <li><span class="icon check-yes">✓</span> JSON + CSV export</li>
+            <li><span class="icon check-yes">✓</span> REST API + webhooks</li>
+            <li><span class="icon check-yes">✓</span> Priority check queue</li>
+            <li><span class="icon check-yes">✓</span> Priority email support</li>
+          </ul>
+          <a href="/auth/sign-up" class="btn btn-outline">Start free trial</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature gate table -->
+  <section>
+    <div class="container">
+      <h2 class="text-center" style="margin-bottom:2.5rem">Full feature comparison</h2>
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Free</th>
+              <th>Pro</th>
+              <th>Agency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th colspan="4" class="section-header">Core DNS checks</th></tr>
+            <tr><td>All 72 DNS checks</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Health Score + letter grade (A+ to F)</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Plain-English verdicts</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">Usage &amp; throughput</th></tr>
+            <tr><td>Domain checks per month</td><td>3</td><td>25</td><td>Unlimited</td></tr>
+
+            <tr><th colspan="4" class="section-header">Fix This First</th></tr>
+            <tr><td>Priority remediation stack</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Fix impact scores</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Copy-ready DNS record snippets</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">Shareable report URLs</th></tr>
+            <tr><td>Shareable report link</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Link expiry</td><td>24 hours</td><td>30 days</td><td>Never</td></tr>
+            <tr><td>Permanent URLs</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">Report history &amp; storage</th></tr>
+            <tr><td>Report history</td><td class="check-no">—</td><td>90 days</td><td>12 months</td></tr>
+            <tr><td>Historical score tracking</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Change alerts (email)</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Scheduled daily checks</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>Multi-domain dashboard</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">Export &amp; white-label</th></tr>
+            <tr><td>PDF export</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>JSON export</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+            <tr><td>CSV export</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+            <tr><td>White-label PDF (your logo)</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">API &amp; automation</th></tr>
+            <tr><td>REST API access</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+            <tr><td>Webhooks</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+            <tr><td>Priority check queue</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+
+            <tr><th colspan="4" class="section-header">Support</th></tr>
+            <tr><td>Email support</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓ Priority</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="container-narrow">
+      <h2 class="text-center" style="margin-bottom:2.5rem">Common questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h4>What counts as a domain check?</h4>
+          <p>One domain check runs all 72 automated checks against a single root domain (e.g. yourcompany.com). Checking the same domain again counts as a second check.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do I need an account to run a free check?</h4>
+          <p>No. Free reports run without an account and with no credit card. You only need to sign up if you want report history, monitoring, or to track usage across your 3 free checks.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What happens when a shared report link expires?</h4>
+          <p>Expired links return a 404. The underlying report data is retained in your account. You can generate a new shareable link at any time from your report history.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I deliver DNS audit reports directly to clients?</h4>
+          <p>Yes — Agency plan includes white-label PDF export. Reports carry your logo and branding. Clients see your name, not DNSSnuff's. Permanent shareable URLs also carry your branding.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I cancel anytime?</h4>
+          <p>Yes. No contracts, no minimums, no cancellation fees. Cancel from your account settings and you won't be charged again. Your data is retained for 90 days after cancellation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.billing-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.toggle-label { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+.toggle-label.active { color: var(--text); }
+.switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  left: 3px; top: 3px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+.switch input:checked + .slider { background: var(--accent); border-color: var(--accent); }
+.switch input:checked + .slider::before { transform: translateX(22px); background: #000; }
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.85rem;
+  border-radius: 999px;
+}
+.pricing-card.featured { position: relative; }
+
+.section-header {
+  background: var(--bg-3) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 700 !important;
+}
+table td:not(:first-child) { text-align: center; }
+table th:not(:first-child) { text-align: center; }
+</style>
+
+<script>
+const toggle = document.getElementById('billing-toggle') as HTMLInputElement;
+const proPrice = document.getElementById('pro-price')!;
+const proEquiv = document.getElementById('pro-equiv')!;
+const agencyPrice = document.getElementById('agency-price')!;
+const agencyEquiv = document.getElementById('agency-equiv')!;
+const labelMonthly = document.getElementById('label-monthly')!;
+const labelAnnual = document.getElementById('label-annual')!;
+
+toggle.addEventListener('change', () => {
+  if (toggle.checked) {
+    proPrice.innerHTML = '$190 <span>/ year</span>';
+    proEquiv.textContent = 'Equivalent to $15.83/mo';
+    agencyPrice.innerHTML = '$490 <span>/ year</span>';
+    agencyEquiv.textContent = 'Equivalent to $40.83/mo';
+    labelMonthly.classList.remove('active');
+    labelAnnual.classList.add('active');
+  } else {
+    proPrice.innerHTML = '$19 <span>/ month</span>';
+    proEquiv.textContent = '';
+    agencyPrice.innerHTML = '$49 <span>/ month</span>';
+    agencyEquiv.textContent = '';
+    labelMonthly.classList.add('active');
+    labelAnnual.classList.remove('active');
+  }
+});
+</script>

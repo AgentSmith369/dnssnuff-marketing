@@ -1,0 +1,139 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="What Is DMARC? A Plain-English Guide | DNSSnuff"
+  description="DMARC prevents your domain from being spoofed. This guide explains what it is, how it works, and how to set it up correctly — in plain English, no jargon."
+  currentPath="/blog/what-is-dmarc"
+>
+  <Nav slot="nav" currentPath="/blog" />
+
+  <article>
+    <header class="article-header">
+      <div class="container-narrow">
+        <a href="/blog" class="back-link">← Blog</a>
+        <div class="section-label" style="margin-top:1.5rem">Email Authentication</div>
+        <h1>What Is DMARC? A Plain-English Guide</h1>
+        <p class="page-meta">June 2026 · 8 minute read</p>
+      </div>
+    </header>
+
+    <div class="container-narrow article-body">
+
+      <p>If you've ever received an email that looked like it came from a legitimate company — your bank, a supplier, even your own domain — but turned out to be a phishing attempt, you've encountered the problem that DMARC is designed to solve.</p>
+
+      <p>DMARC stands for Domain-based Message Authentication, Reporting and Conformance. It's a DNS record that tells the world's email servers what to do with email that claims to be from your domain but can't be verified as genuine.</p>
+
+      <p>Without it, anyone can send an email that appears to come from your address. With it, those emails get quarantined or rejected before they reach anyone's inbox.</p>
+
+      <h2>What problem does DMARC solve?</h2>
+
+      <p>Email was designed in a simpler time. The original protocol (SMTP) has no built-in way to verify that an email actually came from who it claims to be from. This makes spoofing — sending email that falsely claims to be from a given domain — trivially easy.</p>
+
+      <p>Spoofing is the basis of most phishing attacks. A criminal doesn't need to compromise your email system. They just need to send an email with your domain in the From: header. Without DMARC, many receiving mail servers will simply deliver it.</p>
+
+      <p>DMARC doesn't stop criminals from trying. It tells receiving mail servers to refuse their attempts.</p>
+
+      <h2>How DMARC works</h2>
+
+      <p>DMARC builds on two existing authentication mechanisms: SPF and DKIM.</p>
+
+      <p><strong>SPF (Sender Policy Framework)</strong> is a DNS record that lists the IP addresses authorised to send email for your domain. If an email arrives from an IP address that isn't on your list, SPF fails.</p>
+
+      <p><strong>DKIM (DomainKeys Identified Mail)</strong> is a cryptographic signature added to outgoing email by your mail server. The receiving server checks the signature against a public key in your DNS. If the signature is valid, the email hasn't been tampered with and came from a server authorised to sign for your domain.</p>
+
+      <p>DMARC adds a layer on top of both: it specifies what should happen when an email fails either (or both) of these checks.</p>
+
+      <h2>The three DMARC policies</h2>
+
+      <p>A DMARC record contains a policy (<code>p=</code>) that tells receiving servers what to do with email that fails authentication:</p>
+
+      <h3><code>p=none</code></h3>
+      <p>Do nothing. The email is delivered normally regardless of authentication result. Reports are still generated (if you've configured a reporting address), but no action is taken. This is useful for monitoring before you enforce a policy — but it provides <strong>zero spoofing protection</strong>.</p>
+
+      <h3><code>p=quarantine</code></h3>
+      <p>Email that fails authentication goes to the spam or junk folder. It's not rejected outright, but it's not delivered to the inbox either. This is a sensible intermediate step when moving from <code>none</code> to full enforcement.</p>
+
+      <h3><code>p=reject</code></h3>
+      <p>Email that fails authentication is rejected entirely. It never reaches the recipient's inbox, junk folder, or anywhere else. This is the goal — the only policy that provides genuine spoofing protection.</p>
+
+      <h2>What a DMARC record looks like</h2>
+
+      <p>A DMARC record is a TXT record in DNS at <code>_dmarc.yourdomain.com</code>.</p>
+
+      <p>Minimal example:</p>
+      <pre><code>v=DMARC1; p=reject;</code></pre>
+
+      <p>Recommended setup with reporting:</p>
+      <pre><code>v=DMARC1; p=quarantine; rua=mailto:dmarc@yourdomain.com; pct=100;</code></pre>
+
+      <ul class="article-list">
+        <li><code>v=DMARC1</code> — Required. Identifies this as a DMARC record.</li>
+        <li><code>p=quarantine</code> — Policy for email that fails authentication.</li>
+        <li><code>rua=</code> — Address to receive aggregate reports (summaries of authentication results).</li>
+        <li><code>pct=100</code> — Apply the policy to 100% of email.</li>
+      </ul>
+
+      <h2>How to implement DMARC: a step-by-step approach</h2>
+
+      <p>Implementing DMARC incorrectly can break your legitimate email. The recommended approach is gradual:</p>
+
+      <h3>Step 1: Start with <code>p=none</code> and a reporting address</h3>
+      <pre><code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com;</code></pre>
+      <p>This starts generating reports without affecting email delivery. Run this for 2–4 weeks and review the aggregate reports to understand what's sending email from your domain.</p>
+
+      <h3>Step 2: Fix SPF and DKIM</h3>
+      <p>Review the aggregate reports. Identify any legitimate sending sources that aren't covered by your SPF record or aren't signing with DKIM. Add them before moving to an enforced policy.</p>
+
+      <h3>Step 3: Move to <code>p=quarantine</code></h3>
+      <pre><code>v=DMARC1; p=quarantine; rua=mailto:dmarc@yourdomain.com; pct=10;</code></pre>
+      <p>Start with <code>pct=10</code> to apply the policy to only 10% of traffic. Monitor for false positives. Gradually increase to 100.</p>
+
+      <h3>Step 4: Move to <code>p=reject</code></h3>
+      <pre><code>v=DMARC1; p=reject; rua=mailto:dmarc@yourdomain.com; pct=100;</code></pre>
+      <p>Full enforcement. Spoofed email claiming to be from your domain will be rejected before it reaches any inbox.</p>
+
+      <h2>Common DMARC mistakes</h2>
+
+      <h3>Leaving DMARC at <code>p=none</code> indefinitely</h3>
+      <p><code>p=none</code> is a monitoring policy, not a protection policy. Your domain can still be spoofed. Move to <code>p=reject</code> as the goal.</p>
+
+      <h3>Not configuring a reporting address</h3>
+      <p>Without <code>rua=</code>, you get no visibility into what's authenticating and what's failing. You're flying blind.</p>
+
+      <h3>Breaking DMARC alignment</h3>
+      <p>DMARC requires the domain in the From: header to align with the domain that passes SPF or DKIM. If you're sending from a subdomain but your DMARC is on the root domain, check that <code>aspf=r</code> (relaxed alignment) is set.</p>
+
+      <h3>Multiple DMARC records</h3>
+      <p>Like SPF, only one DMARC record is permitted. Multiple records cause a PermError and DMARC evaluation fails entirely.</p>
+
+      <div class="article-cta">
+        <h3>Check your DMARC right now</h3>
+        <p>Run a free DNSSnuff report to see your current DMARC policy, whether it's correctly formatted, and what to fix.</p>
+        <a href="/" class="btn btn-primary">Run Free Report →</a>
+      </div>
+
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.article-header { padding: 4rem 0 2rem; }
+.back-link { color: var(--text-muted); font-size: 0.875rem; }
+.back-link:hover { color: var(--accent); }
+.article-body { padding-bottom: 4rem; }
+.article-body h2 { margin: 2.5rem 0 1rem; }
+.article-body h3 { margin: 1.75rem 0 0.75rem; color: var(--text); }
+.article-body p { margin-bottom: 1rem; }
+.article-body pre { margin: 1.5rem 0; }
+.article-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 0; margin: 1rem 0 1.5rem; }
+.article-list li { display: flex; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+.article-list li::before { content: '—'; color: var(--text-muted); flex-shrink: 0; }
+.article-cta { background: var(--bg-2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 12px; padding: 2rem; margin-top: 3rem; }
+.article-cta h3 { margin-bottom: 0.75rem; }
+.article-cta p { margin-bottom: 1.5rem; }
+</style>

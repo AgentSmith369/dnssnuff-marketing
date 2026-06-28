@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Terms of Service — DNSSnuff" description="DNSSnuff terms of service." currentPath="/terms-of-service">
+  <Nav slot="nav" />
+  <section>
+    <div class="container-narrow">
+      <h1>Terms of Service</h1>
+      <p class="page-meta">Last updated: June 2026</p>
+      <div class="legal-body">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By using DNSSnuff, you agree to these Terms of Service. If you do not agree, do not use the service.</p>
+
+        <h2>2. Service Description</h2>
+        <p>DNSSnuff provides automated DNS health diagnostic checks. Results are provided for informational purposes. DNSSnuff does not guarantee that checks are complete or error-free. DNS configurations change; results reflect the state of a domain at the time of the check.</p>
+
+        <h2>3. Acceptable Use</h2>
+        <p>You may use DNSSnuff to check domains you own or have authorisation to check. You may not use DNSSnuff to conduct automated mass checks against third-party domains without permission, circumvent rate limiting, or use the service for any unlawful purpose.</p>
+
+        <h2>4. Free Tier</h2>
+        <p>The free tier is provided as-is with no uptime guarantees. We reserve the right to rate-limit or restrict free tier access to prevent abuse.</p>
+
+        <h2>5. Pro and Agency Plans</h2>
+        <p>Pro and Agency plans are billed monthly or annually. Cancellation takes effect at the end of the current billing period. No refunds are provided for partial periods. We reserve the right to modify pricing with 30 days' notice.</p>
+
+        <h2>6. Limitation of Liability</h2>
+        <p>DNSSnuff is provided "as is" without warranty of any kind. DNSSnuff shall not be liable for any indirect, incidental, or consequential damages arising from use of the service.</p>
+
+        <h2>7. Contact</h2>
+        <p>For questions about these terms: <a href="mailto:hello@dnssnuff.com">hello@dnssnuff.com</a></p>
+      </div>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Layout>
+<style>
+.legal-body { display: flex; flex-direction: column; gap: 0; }
+.legal-body h2 { margin: 2rem 0 0.75rem; font-size: 1.2rem; }
+.legal-body p { margin-bottom: 0.75rem; }
+</style>

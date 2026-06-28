@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout title="Privacy Policy — DNSSnuff" description="DNSSnuff privacy policy." currentPath="/privacy-policy">
+  <Nav slot="nav" />
+  <section>
+    <div class="container-narrow">
+      <h1>Privacy Policy</h1>
+      <p class="page-meta">Last updated: June 2026</p>
+      <div class="legal-body">
+        <h2>1. Information We Collect</h2>
+        <p>When you use DNSSnuff, we collect: domain names you submit for checking, your IP address (for rate limiting and abuse prevention), account information if you sign up (email address, billing information for Pro/Agency plans), and usage data (pages visited, reports run, timestamps).</p>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the information we collect to: provide the DNS diagnostic service, send email alerts and notifications (Pro/Agency plans), process payments and manage subscriptions, prevent abuse and rate-limit excessive requests, and improve the service.</p>
+        <p>We do not sell your data. We do not share your data with third parties except as required to operate the service (payment processors, hosting providers). We do not use your data to train AI models.</p>
+
+        <h2>3. Data Retention</h2>
+        <p>Free reports are retained for 24 hours. Pro reports are retained for 90 days. Agency reports are retained for 12 months. Account data is retained for the duration of your subscription plus 90 days after cancellation.</p>
+
+        <h2>4. Cookies</h2>
+        <p>We use essential cookies for session management and authentication. We use analytics cookies (Google Analytics 4) to understand usage patterns. You can opt out of analytics cookies via our <a href="/cookie-policy">Cookie Policy</a> page.</p>
+
+        <h2>5. Your Rights</h2>
+        <p>You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at <a href="mailto:hello@dnssnuff.com">hello@dnssnuff.com</a>.</p>
+
+        <h2>6. Contact</h2>
+        <p>For privacy-related enquiries: <a href="mailto:hello@dnssnuff.com">hello@dnssnuff.com</a></p>
+      </div>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Layout>
+<style>
+.legal-body { display: flex; flex-direction: column; gap: 0; }
+.legal-body h2 { margin: 2rem 0 0.75rem; font-size: 1.2rem; }
+.legal-body p { margin-bottom: 0.75rem; }
+</style>

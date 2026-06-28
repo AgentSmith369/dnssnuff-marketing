@@ -1,0 +1,277 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="Documentation — DNSSnuff DNS Diagnostics"
+  description="DNSSnuff documentation — how to run reports, read results, use the API, and configure Pro monitoring. Complete reference for developers and IT teams."
+  currentPath="/docs"
+>
+  <Nav slot="nav" currentPath="/docs" />
+
+  <div class="docs-layout container">
+    <aside class="docs-sidebar">
+      <nav>
+        <ul>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#email-auth">Email Authentication</a></li>
+          <li><a href="#monitoring">Pro — Monitoring &amp; Alerts</a></li>
+          <li><a href="#api">API Reference</a></li>
+          <li><a href="#white-label">White-label Reports</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+
+      <h1>Documentation</h1>
+      <p class="docs-intro">Everything you need to run reports, read results, set up Pro monitoring, and use the API.</p>
+
+      <!-- Getting Started -->
+      <section id="getting-started" class="docs-section">
+        <h2>Getting Started</h2>
+
+        <h3>Running your first report</h3>
+        <ol class="doc-ol">
+          <li>Go to <a href="https://dnssnuff.com">dnssnuff.com</a></li>
+          <li>Enter any domain in the search box (e.g. <code>yourcompany.com</code>)</li>
+          <li>Press <strong>Run Report</strong> or hit Enter</li>
+          <li>Results appear in under 5 seconds</li>
+        </ol>
+        <p>No account required. No installation. No configuration.</p>
+
+        <h3>Reading your results</h3>
+        <p>Your report is divided into 8 categories:</p>
+        <ul class="doc-list">
+          <li><strong>Parent Zone</strong> — delegation from the TLD registry</li>
+          <li><strong>Nameservers</strong> — configuration, redundancy, and consistency</li>
+          <li><strong>Start of Authority</strong> — zone health and timing parameters</li>
+          <li><strong>Mail Servers</strong> — MX records and SMTP configuration</li>
+          <li><strong>Email Authentication</strong> — SPF, DKIM, DMARC, and BIMI</li>
+          <li><strong>Web Presence</strong> — HTTP/HTTPS, SSL, and redirects</li>
+          <li><strong>DNSSEC</strong> — chain of trust and signing</li>
+          <li><strong>Blacklists</strong> — 50+ RBL lookups</li>
+        </ul>
+
+        <p>Each check shows one of three statuses:</p>
+        <ul class="doc-list">
+          <li><span class="status-pass">✅ Pass</span> — Correctly configured</li>
+          <li><span class="status-warn">⚠️ Warning</span> — Configured but not to best-practice standard</li>
+          <li><span class="status-fail">❌ Fail</span> — Misconfigured or missing; action required</li>
+        </ul>
+
+        <h3>Understanding health scores</h3>
+        <p>Your health score (0–100) and letter grade (A+ through F) reflect the weighted aggregate of all 72 checks. Critical checks (such as DMARC policy and blacklist status) carry more weight than best-practice recommendations.</p>
+
+        <h3>"Fix This First" priority stack</h3>
+        <p>The priority stack shows all failed checks ordered by severity. Start at the top. Critical items (❌) should be addressed before Warnings (⚠️).</p>
+
+        <h3>Sharing a report</h3>
+        <p>Every report has a permanent URL. Copy it from your browser's address bar or use the <strong>Share</strong> button in the report header. Recipients do not need a DNSSnuff account to view a shared report.</p>
+      </section>
+
+      <!-- Email Authentication -->
+      <section id="email-auth" class="docs-section">
+        <h2>Email Authentication</h2>
+
+        <h3>SPF (Sender Policy Framework)</h3>
+        <p>SPF authorises specific mail servers to send email on behalf of your domain.</p>
+
+        <h4>Common SPF issues</h4>
+        <ul class="doc-list">
+          <li><strong>Multiple SPF records</strong> — Only one TXT record starting with <code>v=spf1</code> is permitted. Multiple records cause immediate authentication failure.</li>
+          <li><strong>Exceeding the 10-lookup limit</strong> — SPF allows a maximum of 10 DNS lookups during evaluation. Exceeding this causes a PermError, which some receivers treat as a failure.</li>
+          <li><strong>Softfail (<code>~all</code>) instead of Fail (<code>-all</code>)</strong> — <code>~all</code> means unauthorised senders are not outright rejected. Use <code>-all</code> to reject them.</li>
+        </ul>
+
+        <p>Example valid SPF record:</p>
+        <pre><code>v=spf1 include:_spf.google.com include:sendgrid.net -all</code></pre>
+
+        <h3>DKIM (DomainKeys Identified Mail)</h3>
+        <p>DKIM adds a cryptographic signature to outgoing email, allowing receivers to verify it hasn't been tampered with.</p>
+        <p>Minimum requirements:</p>
+        <ul class="doc-list">
+          <li>Key length: 1024 bits minimum; 2048 bits recommended</li>
+          <li>Record format: TXT record at <code>&lt;selector&gt;._domainkey.&lt;domain&gt;</code></li>
+        </ul>
+
+        <h3>DMARC</h3>
+        <p>DMARC builds on SPF and DKIM to specify what receivers should do with email that fails authentication.</p>
+        <p>Policy levels:</p>
+        <ul class="doc-list">
+          <li><code>p=none</code> — Monitor only. No action taken. Provides no spoofing protection.</li>
+          <li><code>p=quarantine</code> — Failing email is sent to spam.</li>
+          <li><code>p=reject</code> — Failing email is rejected entirely.</li>
+        </ul>
+        <p>Recommended starting point:</p>
+        <pre><code>v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@yourdomain.com; pct=100;</code></pre>
+        <p>Move to <code>p=reject</code> once you've confirmed legitimate email is passing authentication.</p>
+
+        <h3>BIMI</h3>
+        <p>BIMI allows your brand logo to appear in supporting email clients when a message passes DMARC with <code>p=quarantine</code> or <code>p=reject</code>. Requires a Verified Mark Certificate (VMC) for full Gmail and Apple Mail support.</p>
+      </section>
+
+      <!-- Monitoring -->
+      <section id="monitoring" class="docs-section">
+        <h2>Pro — Monitoring &amp; Alerts</h2>
+
+        <h3>Setting up monitoring</h3>
+        <ol class="doc-ol">
+          <li>Sign up for Pro at <a href="/pricing">dnssnuff.com/pricing</a></li>
+          <li>Add domains to your dashboard from the <strong>Domains</strong> tab</li>
+          <li>Each domain is checked automatically every 24 hours</li>
+          <li>Configure alert recipients under <strong>Settings → Alerts</strong></li>
+        </ol>
+
+        <h3>Alert types</h3>
+        <p>DNSSnuff sends an email alert when:</p>
+        <ul class="doc-list">
+          <li>Any check result changes (pass → warn, warn → fail, or any change in direction)</li>
+          <li>A new blacklist listing appears</li>
+          <li>An SSL certificate drops below your configured expiry threshold (default: 30 days)</li>
+          <li>A DMARC or SPF policy change is detected</li>
+        </ul>
+
+        <h3>Historical tracking</h3>
+        <p>The <strong>History</strong> tab on any monitored domain shows the health score over time. Click any point on the timeline to see the full report from that date.</p>
+      </section>
+
+      <!-- API Reference -->
+      <section id="api" class="docs-section">
+        <h2>API Reference <span class="badge badge-accent">Agency</span></h2>
+
+        <h3>Authentication</h3>
+        <p>All API requests require a Bearer token. Obtain your API key from <strong>Settings → API</strong> in your Agency dashboard.</p>
+        <pre><code>Authorization: Bearer YOUR_API_KEY</code></pre>
+
+        <h3>Run a report</h3>
+        <pre><code>GET /v1/report?domain={"{domain}"}</code></pre>
+        <p>Parameters:</p>
+        <ul class="doc-list">
+          <li><code>domain</code> (required) — The domain to check (e.g. <code>yourcompany.com</code>)</li>
+          <li><code>format</code> (optional) — <code>json</code> (default) or <code>summary</code></li>
+        </ul>
+        <p>Example response:</p>
+        <pre><code>{`{
+  "domain": "yourcompany.com",
+  "score": 84,
+  "grade": "B",
+  "generated_at": "2026-06-28T09:00:00Z",
+  "checks": [
+    {
+      "category": "email_authentication",
+      "name": "dmarc_policy",
+      "status": "warn",
+      "severity": "critical",
+      "message": "DMARC policy is set to none. Domain can be spoofed.",
+      "remediation": "Change p=none to p=quarantine or p=reject."
+    }
+  ]
+}`}</code></pre>
+
+        <h3>List monitored domains</h3>
+        <pre><code>GET /v1/domains</code></pre>
+
+        <h3>Get domain history</h3>
+        <pre><code>GET /v1/domains/{"{domain}"}/history?days=30</code></pre>
+
+        <h3>Rate limits</h3>
+        <ul class="doc-list">
+          <li>Free: 10 requests per minute per IP</li>
+          <li>Agency: 100 requests per minute per API key</li>
+        </ul>
+      </section>
+
+      <!-- White-label -->
+      <section id="white-label" class="docs-section">
+        <h2>White-label Reports <span class="badge badge-accent">Agency</span></h2>
+
+        <h3>Configuring white-label branding</h3>
+        <ol class="doc-ol">
+          <li>Go to <strong>Settings → White Label</strong> in your Agency dashboard</li>
+          <li>Upload your logo (PNG or SVG, minimum 200px wide)</li>
+          <li>Set your brand colour (hex value)</li>
+          <li>Enter your company name</li>
+          <li>Optionally set a custom report header and footer</li>
+        </ol>
+        <p>All reports generated from your account will carry your branding. The DNSSnuff name and logo will not appear on white-label reports.</p>
+
+        <h3>Sharing white-label reports</h3>
+        <p>Shareable report URLs for white-label reports use your branding when opened by the recipient. No DNSSnuff login required to view. Agency plan URLs never expire.</p>
+      </section>
+
+      <!-- Troubleshooting -->
+      <section id="troubleshooting" class="docs-section">
+        <h2>Troubleshooting</h2>
+
+        <h3>My report shows no DKIM records</h3>
+        <p>DNSSnuff checks for DKIM records at common selectors (google, selector1, selector2, default, mail, k1, smtp, dkim). If your DKIM selector is non-standard, the check may not find it. This does not necessarily mean DKIM is absent — check your email platform for the correct selector name.</p>
+
+        <h3>My SPF record looks correct but the check is failing</h3>
+        <p>The most common cause is exceeding the 10-lookup limit. Use a tool like dmarcian's SPF Surveyor to count your lookups. Flattening your SPF record (replacing <code>include:</code> with explicit IP addresses) resolves this.</p>
+
+        <h3>My domain is listed on a blacklist — what do I do?</h3>
+        <ol class="doc-ol">
+          <li>Identify which list(s) from the report</li>
+          <li>Visit the block list's website and use their lookup tool to confirm</li>
+          <li>Follow their delisting process (most have a web form)</li>
+          <li>Monitor your listing status — some de-listings take 24–48 hours to propagate</li>
+        </ol>
+
+        <h3>Why does my health score differ from yesterday?</h3>
+        <p>Scores change when any check result changes — a new listing, an expiring certificate moving into a warning threshold, or a DNS record update. Check the <strong>History</strong> tab to see exactly which check changed and when.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.docs-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  align-items: start;
+}
+.docs-sidebar {
+  position: sticky;
+  top: 80px;
+}
+.docs-sidebar ul { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; }
+.docs-sidebar li a {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  border-radius: 6px;
+  transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+.docs-sidebar li a:hover { color: var(--text); background: var(--bg-2); border-left-color: var(--accent); }
+
+.docs-content h1 { margin-bottom: 0.5rem; }
+.docs-intro { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem; }
+.docs-section { margin-bottom: 4rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.docs-section h2 { margin-bottom: 1.5rem; }
+.docs-section h3 { margin: 2rem 0 0.75rem; color: var(--text); font-size: 1.1rem; }
+.docs-section h4 { margin: 1.5rem 0 0.5rem; color: var(--text); font-size: 0.95rem; }
+.docs-section p { margin-bottom: 0.75rem; }
+.doc-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; padding: 0; margin: 0.75rem 0 1.25rem; }
+.doc-list li { display: flex; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+.doc-list li::before { content: '→'; color: var(--text-muted); flex-shrink: 0; }
+.doc-ol { padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; margin: 0.75rem 0 1.25rem; color: var(--text-muted); font-size: 0.9rem; }
+.status-pass { color: var(--green); }
+.status-warn { color: var(--yellow); }
+.status-fail { color: var(--red); }
+
+@media (max-width: 768px) {
+  .docs-layout { grid-template-columns: 1fr; }
+  .docs-sidebar { display: none; }
+}
+</style>

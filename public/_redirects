@@ -1,0 +1,8 @@
+# Legacy legal redirects
+/legal/privacy-policy    /privacy-policy    301
+/legal/terms-of-service  /terms-of-service  301
+/legal/cookie-policy     /cookie-policy     301
+/legal/*                 /                  301
+
+# Use cases index
+/use-cases               /features          301

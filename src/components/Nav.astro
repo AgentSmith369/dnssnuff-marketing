@@ -1,0 +1,124 @@
+---
+const { currentPath = '' } = Astro.props;
+---
+<nav class="site-nav">
+  <div class="nav-inner container">
+    <a href="/" class="nav-logo">
+      <span class="logo-dot">◆</span> DNSSnuff
+    </a>
+    <ul class="nav-links">
+      <li><a href="/features" class={currentPath === '/features' ? 'active' : ''}>Features</a></li>
+      <li><a href="/pricing" class={currentPath === '/pricing' ? 'active' : ''}>Pricing</a></li>
+      <li class="nav-dropdown">
+        <span class="nav-parent">Use Cases</span>
+        <ul class="dropdown">
+          <li><a href="/use-cases/developers">Developers</a></li>
+          <li><a href="/use-cases/msp">MSPs &amp; Agencies</a></li>
+          <li><a href="/use-cases/it-teams">IT Teams</a></li>
+        </ul>
+      </li>
+      <li><a href="/blog" class={currentPath === '/blog' ? 'active' : ''}>Blog</a></li>
+      <li><a href="/about" class={currentPath === '/about' ? 'active' : ''}>About</a></li>
+    </ul>
+    <div class="nav-auth">
+      <a href="/auth/sign-in" class="btn-ghost">Sign In</a>
+      <a href="/auth/sign-up" class="btn btn-primary btn-sm">Sign Up Free</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<style>
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 64px;
+}
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent) !important;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo-dot { font-size: 0.7em; }
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  flex: 1;
+}
+.nav-links > li > a,
+.nav-parent {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+.nav-links > li > a:hover,
+.nav-parent:hover { color: var(--text); }
+.nav-links > li > a.active { color: var(--accent); }
+
+.nav-dropdown { position: relative; }
+.nav-dropdown:hover .dropdown { display: block; }
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem;
+  min-width: 200px;
+  list-style: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.dropdown li a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  border-radius: 6px;
+}
+.dropdown li a:hover { background: var(--bg-3); color: var(--text); }
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+.btn-ghost {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.15s;
+  text-decoration: none;
+}
+.btn-ghost:hover { color: var(--text); }
+.btn-sm { padding: 0.45rem 1.1rem; font-size: 0.875rem; }
+
+.nav-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--text); padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-left: auto; }
+
+@media (max-width: 768px) {
+  .nav-links, .nav-auth { display: none; }
+  .nav-toggle { display: block; }
+}
+</style>
