@@ -5,7 +5,8 @@
 const VERCEL_URL = 'https://dnssnuff.vercel.app';
 
 const GA4_ID = 'G-VL248KXQF9';
-const GA4_SNIPPET = `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}');<\/script>`;
+const GA4_ID_2 = 'G-8GEYK7FMK1';
+const GA4_SNIPPET = `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"><\/script><script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID_2}"><\/script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}');gtag('config','${GA4_ID_2}');<\/script>`;
 
 export async function onRequest(context) {
   const { request, next } = context;

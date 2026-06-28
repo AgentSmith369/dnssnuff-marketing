@@ -18,13 +18,15 @@ const GA4 = 'G-VL248KXQF9';
   {noindex && <meta name="robots" content="noindex" />}
   <link rel="canonical" href={`https://dnssnuff.com${currentPath}`} />
 
-  <!-- GA4 -->
+  <!-- Google tag (gtag.js) -->
   <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4}`}></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GEYK7FMK1"></script>
   <script define:vars={{ GA4 }}>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', GA4);
+    gtag('config', 'G-8GEYK7FMK1');
   </script>
 
   <!-- Open Graph -->
