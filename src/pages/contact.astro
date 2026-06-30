@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="Contact — DNSSnuff"
+  description="Get in touch with the DNSSnuff team. Questions about plans, API access, white-label reporting, or anything else — we're here."
+  currentPath="/contact"
+>
+  <Nav slot="nav" currentPath="/contact" />
+
+  <section class="hero">
+    <div class="container">
+      <div class="section-label">Contact</div>
+      <h1>Get in touch.</h1>
+      <p>Questions about plans, billing, API access, or white-label reporting — drop us a message and we'll get back to you within one business day.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-narrow">
+      <div class="contact-grid">
+
+        <div class="contact-info">
+          <h2>Email us directly</h2>
+          <p>For the fastest response, email us at:</p>
+          <a href="mailto:hello@dnssnuff.com" class="email-link">hello@dnssnuff.com</a>
+
+          <div class="contact-topics">
+            <h3>Common topics</h3>
+            <ul>
+              <li><strong>Billing & plans</strong> — upgrades, cancellations, invoices</li>
+              <li><strong>API access</strong> — documentation, rate limits, integration help</li>
+              <li><strong>White-label reports</strong> — Agency plan setup and branding</li>
+              <li><strong>Bug reports</strong> — include the domain and what you expected to see</li>
+              <li><strong>Anything else</strong> — we read every email</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap">
+          <h2>Send a message</h2>
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@yourcompany.com" required />
+            </div>
+            <div class="field">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject">
+                <option value="">Select a topic…</option>
+                <option value="billing">Billing & plans</option>
+                <option value="api">API access</option>
+                <option value="whitelabel">White-label reports</option>
+                <option value="bug">Bug report</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell us what you need…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Send message</button>
+            <div id="form-status" class="form-status" aria-live="polite"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+.email-link {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  margin: 0.75rem 0 2rem;
+}
+.email-link:hover { color: var(--accent-hover); }
+
+.contact-topics h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+.contact-topics ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.contact-topics li {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  padding-left: 1rem;
+  position: relative;
+}
+.contact-topics li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--border-mid);
+}
+
+.contact-form-wrap h2 { margin-bottom: 1.5rem; }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.field input,
+.field select,
+.field textarea {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+.field select { appearance: none; cursor: pointer; }
+.field textarea { resize: vertical; }
+
+.btn { margin-top: 0.5rem; }
+
+.form-status {
+  font-size: 0.9rem;
+  min-height: 1.5rem;
+  margin-top: 0.25rem;
+}
+.form-status.success { color: var(--green); }
+.form-status.error { color: var(--red); }
+</style>
+
+<script>
+const form = document.getElementById('contact-form') as HTMLFormElement;
+const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+const status = document.getElementById('form-status')!;
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+  const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+  const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
+
+  if (!name || !email || !message) {
+    status.textContent = 'Please fill in your name, email, and message.';
+    status.className = 'form-status error';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+  status.textContent = '';
+  status.className = 'form-status';
+
+  try {
+    const subject = (document.getElementById('subject') as HTMLSelectElement).value;
+    const body = new FormData(form);
+    const payload = {
+      name,
+      email,
+      subject: subject || 'General enquiry',
+      message,
+    };
+
+    const res = await fetch('https://formspree.io/f/hello@dnssnuff.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      status.textContent = 'Message sent — we\'ll reply within one business day.';
+      status.className = 'form-status success';
+      form.reset();
+    } else {
+      throw new Error('Send failed');
+    }
+  } catch {
+    status.textContent = 'Something went wrong. Please email us directly at hello@dnssnuff.com.';
+    status.className = 'form-status error';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send message';
+  }
+});
+</script>

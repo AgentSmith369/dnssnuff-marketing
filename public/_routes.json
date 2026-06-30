@@ -3,6 +3,8 @@
   "include": ["/*"],
   "exclude": [
     "/",
+    "/contact",
+    "/contact/*",
     "/robots.txt",
     "/sitemap.xml",
     "/pricing",
