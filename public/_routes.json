@@ -2,6 +2,9 @@
   "version": 1,
   "include": ["/*"],
   "exclude": [
+    "/",
+    "/robots.txt",
+    "/sitemap.xml",
     "/pricing",
     "/pricing/*",
     "/features",

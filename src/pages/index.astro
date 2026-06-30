@@ -1,0 +1,543 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="DNSSnuff — DNS Health & Email Deliverability Diagnostics"
+  description="Run 72 automated DNS checks across health, email authentication, DNSSEC, and blacklists. Plain-English results in under 5 seconds. Free, always."
+  currentPath="/"
+>
+  <Nav slot="nav" currentPath="/" />
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="section-label">Free DNS Health Check</div>
+        <h1>Is your DNS up to snuff?</h1>
+        <p class="hero-sub">72 automated checks across DNS health, email authentication, DNSSEC, and blacklists. Plain-English results in under 5 seconds. No account required.</p>
+
+        <form id="check-form" class="checker-form" novalidate>
+          <div class="input-row">
+            <input
+              type="text"
+              id="domain-input"
+              name="domain"
+              placeholder="Enter any domain (e.g. yourcompany.com)"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+            />
+            <button type="submit" id="run-btn" class="btn btn-primary btn-run">
+              <span class="btn-text">Run Free Report →</span>
+              <span class="btn-loading" aria-hidden="true">Scanning…</span>
+            </button>
+          </div>
+          <div id="form-error" class="form-error" role="alert" aria-live="polite"></div>
+          <p class="form-note">Free forever. No sign-up. No credit card.</p>
+        </form>
+
+        <!-- Trust bar -->
+        <div class="trust-bar">
+          <span class="trust-label">Trusted by developers, sysadmins, and MSPs worldwide</span>
+          <div class="ticker-wrap">
+            <div class="ticker">
+              <span>bbc.co.uk</span>
+              <span>gov.uk</span>
+              <span>shopify.com</span>
+              <span>stripe.com</span>
+              <span>cloudflare.com</span>
+              <span>github.com</span>
+            </div>
+          </div>
+          <div class="stats-bar">
+            <span id="total-reports">—</span> reports run
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 72 checks -->
+  <section>
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem">
+        <div class="section-label">What we check</div>
+        <h2>72 checks. 8 categories. One report.</h2>
+        <p style="max-width:600px;margin:1rem auto 0">Every check that matters for a healthy domain and deliverable email — run automatically, explained in plain English.</p>
+      </div>
+      <div class="checks-grid">
+        {[
+          { num: '01', label: 'Parent Zone', count: 6, desc: 'Confirms your domain is properly delegated from its TLD registry. If the parent zone doesn\'t recognise your nameservers, nothing downstream works correctly.' },
+          { num: '02', label: 'Nameservers', count: 13, desc: 'Verifies redundancy, consistency, and correct configuration. All NS records must return the same answers. No single point of failure.' },
+          { num: '03', label: 'Start of Authority', count: 9, desc: 'Validates SOA record timing parameters and zone health. Problems here cause stale caches, slow propagation, and resolver failures — silently.' },
+          { num: '04', label: 'Mail Servers', count: 10, desc: 'Verifies MX record syntax, priority ordering, hostname resolution, and SMTP validity. A misconfigured MX means bounced email with no visible error.' },
+          { num: '05', label: 'Email Authentication', count: 14, desc: 'SPF, DKIM, DMARC, and BIMI — the four records that determine whether your email reaches the inbox or gets flagged as spam.', highlight: true },
+          { num: '06', label: 'Web Presence', count: 9, desc: 'HTTP/HTTPS reachability, SSL certificate validity and expiry, redirect chain depth, HSTS headers, and mixed-content signals.' },
+          { num: '07', label: 'DNSSEC', count: 5, desc: 'Full chain-of-trust verification from root to zone. Catches signing errors, expired signatures, and missing DS records.' },
+          { num: '08', label: 'Blacklists', count: 6, desc: 'Cross-references your domain and mail server IPs against 50+ real-time block lists. A listing here means your email is being rejected.' },
+        ].map(c => (
+          <div class={`check-card ${c.highlight ? 'check-card--highlight' : ''}`}>
+            <div class="check-header">
+              <span class="check-num">{c.num}</span>
+              <span class="check-count">{c.count} checks</span>
+            </div>
+            <h3>{c.label}</h3>
+            <p>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Not just data. A fix. -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="split-layout">
+        <div class="split-copy">
+          <div class="section-label">How it works</div>
+          <h2>Not just data. A fix you can copy and paste.</h2>
+          <p>Most DNS tools dump raw records at you and leave you to figure out what they mean. DNSSnuff reads them for you.</p>
+          <p>Every check runs against known best-practice standards. When something's wrong, you get a plain-English explanation — and a ready-to-paste remediation: the exact DNS record to add, the registrar steps, or the email to hand your IT provider.</p>
+          <p>Paste it into ChatGPT or Claude. Done.</p>
+        </div>
+        <div class="split-examples">
+          <div class="example-block">
+            <div class="example-label example-label--warn">⚠ WARN</div>
+            <div class="example-raw"><code>v=DMARC1; p=none; rua=mailto:rpts@example.com</code></div>
+            <div class="example-verdict">Your domain can currently be spoofed. DMARC is set to <code>p=none</code> — anyone can send email claiming to be from your domain without being blocked. Change to <code>p=quarantine</code> or <code>p=reject</code>.</div>
+          </div>
+          <div class="example-block">
+            <div class="example-label example-label--warn">⚠ WARN</div>
+            <div class="example-raw"><code>v=spf1 include:_spf.google.com ~all</code></div>
+            <div class="example-verdict">Your SPF uses <code>~all</code> (softfail). Unauthorised servers can still send as your domain. Change <code>~all</code> to <code>-all</code>.</div>
+          </div>
+          <div class="example-block">
+            <div class="example-label example-label--pass">✓ PASS</div>
+            <div class="example-raw"><code>TTL: 172800 | Refresh: 10800 | Retry: 3600</code></div>
+            <div class="example-verdict">Your SOA timing is within acceptable ranges. Propagation should complete within 48 hours for standard changes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem">
+        <div class="section-label">Process</div>
+        <h2>Four steps. Under five seconds.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Enter any domain</h3>
+          <p>No account required for a free report. Type the domain, press run.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>72 checks run automatically</h3>
+          <p>DNS health, email authentication, SSL, DNSSEC, and blacklist lookups — all in parallel, in seconds.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Read the verdict</h3>
+          <p>Results are severity-ranked. Critical issues first. Plain-English explanation for every finding.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Copy the fix</h3>
+          <p>Every finding includes a ready-to-paste remediation. Paste it into ChatGPT or Claude. Done.</p>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:3rem">
+        <a href="#check-form" class="btn btn-primary" onclick="document.getElementById('domain-input').focus();return false;">Run Your Free Report →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who uses DNSSnuff -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem">
+        <h2>Built for anyone who can't afford a DNS surprise</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Developers &amp; engineers</h3>
+          <p>Run a report before you deploy. Catch misconfigured MX records, missing DMARC policies, broken SSL chains, or incorrect nameserver delegation before they turn into 11pm support calls.</p>
+          <p class="card-note">Use it as a pre-deployment checklist. Every time.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥</div>
+          <h3>IT teams &amp; sysadmins</h3>
+          <p>Monitor your full domain estate. Get alerted the moment anything changes — a misconfigured record, a new blacklist listing, an expiring certificate — before your users notice.</p>
+          <p class="card-note">Set it up once. Let it watch.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏢</div>
+          <h3>MSPs &amp; agencies</h3>
+          <p>White-label DNS health reports under your own branding. Deliver professional domain audits to every client, run from a single multi-domain dashboard, via API if you need it.</p>
+          <p class="card-note">Look like the expert. Because you are.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature highlights -->
+  <section>
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem">
+        <div class="section-label">Everything in one report</div>
+        <h2>What you get</h2>
+      </div>
+      <div class="features-grid">
+        {[
+          { icon: '📋', title: 'Copy-ready remediation', desc: 'Every finding outputs the exact DNS record to add, registrar steps, and a pre-written email for your IT provider.' },
+          { icon: '⚡', title: 'Instant diagnosis', desc: 'Full 72-check audit on any domain in under 5 seconds.' },
+          { icon: '📧', title: 'Email deliverability focus', desc: 'SPF, DKIM, DMARC, and BIMI — the checks most tools miss or misread.' },
+          { icon: '📊', title: 'Health score & letter grade', desc: 'A single score that tells you where you stand at a glance.' },
+          { icon: '🎯', title: '"Fix This First" priority stack', desc: 'Results ordered by severity so you know what actually matters.' },
+          { icon: '🔗', title: 'Shareable report URLs', desc: 'Send a permanent link to your report — no login required for the recipient.' },
+          { icon: '📈', title: 'Historical tracking', desc: 'See what changed and when. Correlate DNS changes with delivery issues.', pro: true },
+          { icon: '🔔', title: 'Change alerts', desc: 'Email notification the moment anything on your domain changes.', pro: true },
+          { icon: '🤖', title: 'AI Prompt button', desc: 'One click generates a Claude/ChatGPT-ready prompt with the finding, raw data, and fix pre-loaded.', pro: true },
+          { icon: '🏷', title: 'White-label reports', desc: 'Your logo, your branding, your client relationships.', agency: true },
+        ].map(f => (
+          <div class="feature-item">
+            <div class="feature-icon">{f.icon}</div>
+            <div>
+              <h4>{f.title}{f.pro ? <span class="tier-badge">Pro</span> : f.agency ? <span class="tier-badge tier-badge--agency">Agency</span> : null}</h4>
+              <p>{f.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing preview -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:3rem">
+        <div class="section-label">Pricing</div>
+        <h2>The report is always free.</h2>
+        <p style="max-width:560px;margin:1rem auto 0">Run up to 3 checks per month at no cost — no account, no credit card. Pro adds full AI-ready remediation, report history, and change alerts from $19/month.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="price">$0 <span>/ month</span></div>
+          <ul>
+            <li><span class="check-yes">✓</span> 3 domain checks per month</li>
+            <li><span class="check-yes">✓</span> All 72 DNS checks</li>
+            <li><span class="check-yes">✓</span> Health Score + letter grade</li>
+            <li><span class="check-yes">✓</span> Fix This First priority stack</li>
+            <li><span class="check-yes">✓</span> Shareable URLs (24-hour expiry)</li>
+          </ul>
+          <a href="/" class="btn btn-outline" onclick="document.getElementById('domain-input').focus();return false;">Run free check</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="price">$19 <span>/ month</span></div>
+          <ul>
+            <li><span class="check-yes">✓</span> 25 domain checks per month</li>
+            <li><span class="check-yes">✓</span> Full AI-ready remediation</li>
+            <li><span class="check-yes">✓</span> AI Prompt button (Claude/ChatGPT)</li>
+            <li><span class="check-yes">✓</span> 90-day report history</li>
+            <li><span class="check-yes">✓</span> Change alerts &amp; daily monitoring</li>
+            <li><span class="check-yes">✓</span> PDF + JSON export</li>
+          </ul>
+          <a href="/auth/sign-up" class="btn btn-primary">Start free trial</a>
+        </div>
+        <div class="pricing-card">
+          <div class="plan-name">Agency</div>
+          <div class="price">$49 <span>/ month</span></div>
+          <ul>
+            <li><span class="check-yes">✓</span> Unlimited domain checks</li>
+            <li><span class="check-yes">✓</span> White-label PDF (your logo)</li>
+            <li><span class="check-yes">✓</span> REST API + webhooks</li>
+            <li><span class="check-yes">✓</span> Permanent shareable URLs</li>
+            <li><span class="check-yes">✓</span> 12-month report history</li>
+          </ul>
+          <a href="/auth/sign-up" class="btn btn-outline">Start free trial</a>
+        </div>
+      </div>
+      <p class="text-center text-muted" style="margin-top:1.5rem;font-size:0.875rem"><a href="/pricing">See full feature comparison →</a></p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-block">
+        <h2>Find out what's wrong with your DNS right now.</h2>
+        <p>It's free. It takes five seconds. And it might save you from a very bad day.</p>
+        <form id="check-form-2" class="checker-form checker-form--inline" novalidate>
+          <div class="input-row">
+            <input type="text" id="domain-input-2" name="domain" placeholder="Enter any domain" autocomplete="off" autocapitalize="none" spellcheck="false" />
+            <button type="submit" class="btn btn-primary btn-run">
+              <span class="btn-text">Run Free Report →</span>
+              <span class="btn-loading" aria-hidden="true">Scanning…</span>
+            </button>
+          </div>
+          <div class="form-error" role="alert" aria-live="polite"></div>
+        </form>
+        <p class="form-note">No account required. Results in under 5 seconds.</p>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+/* Hero */
+.hero-section {
+  padding: 5rem 0 4rem;
+  background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.12) 0%, transparent 65%);
+}
+.hero-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.hero-inner h1 { margin: 0.75rem 0 1.25rem; }
+.hero-sub { font-size: 1.15rem; max-width: 600px; margin: 0 auto 2.5rem; }
+
+/* Checker form */
+.checker-form { width: 100%; max-width: 640px; margin: 0 auto; }
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border-mid);
+  border-radius: 10px;
+  padding: 0.35rem 0.35rem 0.35rem 1rem;
+}
+.input-row input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  min-width: 0;
+}
+.input-row input::placeholder { color: var(--text-muted); }
+.btn-run { flex-shrink: 0; }
+.btn-loading { display: none; }
+.is-loading .btn-text { display: none; }
+.is-loading .btn-loading { display: inline; }
+
+.form-error {
+  color: var(--red);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  min-height: 1.25rem;
+  text-align: left;
+  padding-left: 0.25rem;
+}
+.form-note { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.75rem; }
+
+/* Trust bar */
+.trust-bar {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.trust-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.ticker-wrap { overflow: hidden; max-width: 480px; width: 100%; }
+.ticker {
+  display: flex;
+  gap: 2.5rem;
+  animation: ticker 12s linear infinite;
+  white-space: nowrap;
+}
+.ticker span { font-size: 0.875rem; color: var(--text-muted); font-family: 'SF Mono', monospace; }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.stats-bar { font-size: 0.8rem; color: var(--text-muted); }
+.stats-bar #total-reports { color: var(--accent); font-weight: 700; }
+
+/* Checks grid */
+.checks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.check-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+.check-card--highlight { border-color: var(--accent-blue); background: rgba(37,99,235,0.06); }
+.check-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.check-num { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; }
+.check-count { font-size: 0.7rem; font-weight: 600; color: var(--accent); background: rgba(56,189,248,0.1); padding: 0.15rem 0.5rem; border-radius: 999px; }
+.check-card h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text); }
+.check-card p { font-size: 0.875rem; line-height: 1.6; margin: 0; }
+
+/* Split layout */
+.section-alt { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.split-copy h2 { margin: 0.5rem 0 1.25rem; }
+.split-copy p { margin-bottom: 1rem; }
+.split-examples { display: flex; flex-direction: column; gap: 1rem; }
+.example-block {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+.example-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.example-label--warn { color: var(--yellow); }
+.example-label--pass { color: var(--green); }
+.example-raw { margin-bottom: 0.5rem; }
+.example-raw code { font-size: 0.8rem; }
+.example-verdict { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
+
+/* Steps */
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+.step { text-align: center; }
+.step-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.step h3 { margin-bottom: 0.5rem; font-size: 1.05rem; }
+
+/* Cards */
+.card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+.card-note { color: var(--accent); font-size: 0.875rem; font-style: italic; margin-top: 0.5rem; }
+
+/* Features grid */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+.feature-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem; border-radius: 8px; }
+.feature-item:hover { background: var(--bg-2); }
+.feature-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+.feature-item h4 { margin-bottom: 0.25rem; font-size: 0.95rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+.feature-item p { font-size: 0.875rem; margin: 0; }
+.tier-badge {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  background: rgba(37,99,235,0.15); color: var(--accent); border: 1px solid rgba(37,99,235,0.25);
+  padding: 0.1rem 0.45rem; border-radius: 999px;
+}
+.tier-badge--agency { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.25); }
+
+/* Pricing mini cards */
+.pricing-card { position: relative; }
+.popular-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent-blue); color: #fff;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 0.2rem 0.85rem; border-radius: 999px; white-space: nowrap;
+}
+.pricing-card ul { list-style: none; margin: 1.25rem 0 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.pricing-card li { font-size: 0.875rem; color: var(--text-muted); display: flex; gap: 0.5rem; }
+.pricing-card .btn { width: 100%; text-align: center; }
+
+/* CTA block */
+.cta-block { text-align: center; max-width: 640px; margin: 0 auto; }
+.cta-block h2 { margin-bottom: 0.75rem; }
+.cta-block p { margin-bottom: 2rem; }
+.checker-form--inline { max-width: 560px; }
+
+@media (max-width: 768px) {
+  .hero-section { padding: 3rem 0 2.5rem; }
+  .split-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .steps-grid { grid-template-columns: 1fr; }
+  .input-row { flex-direction: column; padding: 0.5rem; }
+  .btn-run { width: 100%; justify-content: center; }
+}
+</style>
+
+<script>
+const API = 'https://api.dnssnuff.com';
+
+// Load stats
+async function loadStats() {
+  try {
+    const res = await fetch(`${API}/stats`);
+    const data = await res.json();
+    const el = document.getElementById('total-reports');
+    if (el && data.reports_total) {
+      el.textContent = Number(data.reports_total).toLocaleString('en-GB');
+    }
+  } catch {}
+}
+loadStats();
+
+// Duplicate ticker for seamless loop
+const ticker = document.querySelector('.ticker') as HTMLElement;
+if (ticker) {
+  ticker.innerHTML = ticker.innerHTML + ticker.innerHTML;
+}
+
+// Form handler (shared by both forms)
+async function handleSubmit(form: HTMLFormElement) {
+  const input = form.querySelector('input[name="domain"]') as HTMLInputElement;
+  const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const errorEl = form.querySelector('.form-error') as HTMLElement;
+
+  const domain = input.value.trim();
+  if (!domain) {
+    errorEl.textContent = 'Please enter a domain name.';
+    input.focus();
+    return;
+  }
+
+  errorEl.textContent = '';
+  btn.classList.add('is-loading');
+  btn.disabled = true;
+  input.disabled = true;
+
+  try {
+    const res = await fetch(`${API}/report`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain }),
+    });
+
+    if (res.status === 429) {
+      errorEl.textContent = 'Rate limit reached — 10 reports per hour on the free tier. Sign up for Pro for more.';
+      return;
+    }
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      errorEl.textContent = (err as any).error || 'Something went wrong. Please try again.';
+      return;
+    }
+
+    const report = await res.json() as { id: string };
+    window.location.href = `/report/${report.id}`;
+  } catch {
+    errorEl.textContent = 'Could not connect to the check service. Please try again.';
+  } finally {
+    btn.classList.remove('is-loading');
+    btn.disabled = false;
+    input.disabled = false;
+  }
+}
+
+document.getElementById('check-form')?.addEventListener('submit', e => {
+  e.preventDefault();
+  handleSubmit(e.currentTarget as HTMLFormElement);
+});
+
+document.getElementById('check-form-2')?.addEventListener('submit', e => {
+  e.preventDefault();
+  handleSubmit(e.currentTarget as HTMLFormElement);
+});
+</script>
+</Layout>
