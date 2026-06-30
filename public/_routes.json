@@ -25,6 +25,7 @@
     "/cookie-policy/*",
     "/_astro/*",
     "/styles/*",
-    "/favicon.ico"
+    "/favicon.ico",
+    "/favicon.svg"
   ]
 }
