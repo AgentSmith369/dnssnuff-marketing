@@ -6,7 +6,7 @@ export interface Props {
   noindex?: boolean;
 }
 const { title, description, currentPath = '', noindex = false } = Astro.props;
-const GA4 = 'G-VL248KXQF9';
+const GA4 = 'G-8GEYK7FMK1';
 ---
 <!doctype html>
 <html lang="en">
@@ -20,13 +20,11 @@ const GA4 = 'G-VL248KXQF9';
 
   <!-- Google tag (gtag.js) -->
   <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4}`}></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GEYK7FMK1"></script>
   <script define:vars={{ GA4 }}>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', GA4);
-    gtag('config', 'G-8GEYK7FMK1');
   </script>
 
   <!-- Open Graph -->
