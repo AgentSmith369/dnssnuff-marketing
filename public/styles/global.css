@@ -1,15 +1,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #080808;
-  --bg-2: #111118;
-  --bg-3: #1a1a24;
-  --border: #2a2a3a;
-  --text: #e8e8f0;
-  --text-muted: #888899;
-  --accent: #f5a623;
-  --accent-hover: #f7b84b;
-  --accent-blue: #38bdf8;
+  --bg: #0a0a0f;
+  --bg-2: #0f1623;
+  --bg-3: #1a2234;
+  --border: #1e293b;
+  --border-mid: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-blue: #2563eb;
   --green: #22c55e;
   --red: #ef4444;
   --yellow: #eab308;
@@ -96,12 +97,12 @@ section { padding: 5rem 0; }
 }
 
 .btn-primary {
-  background: var(--accent);
-  color: #000;
+  background: var(--accent-blue);
+  color: #fff;
 }
 .btn-primary:hover {
-  background: var(--accent-hover);
-  color: #000;
+  background: #1d4ed8;
+  color: #fff;
   transform: translateY(-1px);
 }
 
@@ -226,7 +227,7 @@ table tr:hover td { background: rgba(255,255,255,0.02); }
   gap: 0;
 }
 .pricing-card.featured {
-  border-color: var(--accent);
+  border-color: var(--accent-blue);
   position: relative;
 }
 .pricing-card .plan-name { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
