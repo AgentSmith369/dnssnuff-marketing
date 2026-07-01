@@ -1,17 +1,17 @@
 ---
 const { currentPath = '' } = Astro.props;
 ---
-<nav class="site-nav">
+<nav class="site-nav" aria-label="Main">
   <div class="nav-inner container">
     <a href="/" class="nav-logo">
-      <span class="logo-dot">◆</span> DNSSnuff
+      <span class="logo-dot" aria-hidden="true">◆</span> DNSSnuff
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="/features" class={currentPath === '/features' ? 'active' : ''}>Features</a></li>
       <li><a href="/pricing" class={currentPath === '/pricing' ? 'active' : ''}>Pricing</a></li>
       <li class="nav-dropdown">
-        <span class="nav-parent">Use Cases</span>
-        <ul class="dropdown">
+        <button type="button" class="nav-parent" aria-expanded="false" aria-controls="use-cases-dropdown">Use Cases</button>
+        <ul class="dropdown" id="use-cases-dropdown">
           <li><a href="/use-cases/developers">Developers</a></li>
           <li><a href="/use-cases/msp">MSPs &amp; Agencies</a></li>
           <li><a href="/use-cases/it-teams">IT Teams</a></li>
@@ -24,7 +24,7 @@ const { currentPath = '' } = Astro.props;
       <a href="/auth/sign-in" class="btn-ghost">Sign In</a>
       <a href="/auth/sign-up" class="btn btn-primary btn-sm">Sign Up Free</a>
     </div>
-    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <button type="button" class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">☰</button>
   </div>
 </nav>
 
@@ -69,12 +69,19 @@ const { currentPath = '' } = Astro.props;
   transition: color 0.15s;
   cursor: pointer;
 }
+.nav-parent {
+  background: none;
+  border: none;
+  font-family: inherit;
+}
 .nav-links > li > a:hover,
 .nav-parent:hover { color: var(--text); }
 .nav-links > li > a.active { color: var(--accent); }
 
 .nav-dropdown { position: relative; }
-.nav-dropdown:hover .dropdown { display: block; }
+.nav-dropdown:hover .dropdown,
+.nav-dropdown:focus-within .dropdown,
+.nav-dropdown.is-open .dropdown { display: block; }
 .dropdown {
   display: none;
   position: absolute;
@@ -120,5 +127,44 @@ const { currentPath = '' } = Astro.props;
 @media (max-width: 768px) {
   .nav-links, .nav-auth { display: none; }
   .nav-toggle { display: block; }
+  .nav-links.is-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem;
+  }
+  .nav-dropdown .dropdown { position: static; box-shadow: none; }
 }
 </style>
+
+<script>
+const navToggle = document.querySelector('.nav-toggle') as HTMLButtonElement;
+const navLinks = document.getElementById('nav-links');
+
+navToggle?.addEventListener('click', () => {
+  const isOpen = navLinks?.classList.toggle('is-open');
+  navToggle.setAttribute('aria-expanded', String(!!isOpen));
+});
+
+document.querySelectorAll<HTMLButtonElement>('.nav-parent').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const dropdown = btn.closest('.nav-dropdown');
+    const isOpen = dropdown?.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(!!isOpen));
+  });
+});
+
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.nav-dropdown.is-open').forEach(dropdown => {
+    if (!dropdown.contains(e.target as Node)) {
+      dropdown.classList.remove('is-open');
+      dropdown.querySelector('.nav-parent')?.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+</script>

@@ -16,10 +16,11 @@ import Footer from '../components/Footer.astro';
       <div class="hero-inner">
         <div class="section-label">Free DNS Health Check</div>
         <h1>Is your DNS up to snuff?</h1>
-        <p class="hero-sub">72 automated checks across DNS health, email authentication, DNSSEC, and blacklists. Plain-English results in under 5 seconds. No account required.</p>
+        <p class="hero-sub">72 automated checks across <abbr title="Domain Name System">DNS</abbr> health, email authentication, <abbr title="Domain Name System Security Extensions">DNSSEC</abbr>, and blacklists. Plain-English results in under 5 seconds. No account required.</p>
 
         <form id="check-form" class="checker-form" novalidate>
           <div class="input-row">
+            <label for="domain-input" class="sr-only">Domain to check</label>
             <input
               type="text"
               id="domain-input"
@@ -28,6 +29,8 @@ import Footer from '../components/Footer.astro';
               autocomplete="off"
               autocapitalize="none"
               spellcheck="false"
+              required
+              aria-required="true"
             />
             <button type="submit" id="run-btn" class="btn btn-primary btn-run">
               <span class="btn-text">Run Free Report →</span>
@@ -50,6 +53,7 @@ import Footer from '../components/Footer.astro';
               <span>cloudflare.com</span>
               <span>github.com</span>
             </div>
+            <button type="button" id="ticker-toggle" class="ticker-toggle" aria-pressed="false" aria-label="Pause scrolling list">⏸</button>
           </div>
           <div class="stats-bar">
             <span id="total-reports">—</span> reports run
@@ -104,19 +108,19 @@ import Footer from '../components/Footer.astro';
         </div>
         <div class="split-examples">
           <div class="example-block">
-            <div class="example-label example-label--warn">⚠ WARN</div>
-            <div class="example-raw"><code>v=DMARC1; p=none; rua=mailto:rpts@example.com</code></div>
-            <div class="example-verdict">Your domain can currently be spoofed. DMARC is set to <code>p=none</code> — anyone can send email claiming to be from your domain without being blocked. Change to <code>p=quarantine</code> or <code>p=reject</code>.</div>
+            <div class="example-label example-label--warn"><span aria-hidden="true">⚠</span> WARN</div>
+            <div class="example-raw"><code>v=<abbr title="Domain-based Message Authentication, Reporting and Conformance">DMARC</abbr>1; p=none; rua=mailto:rpts@example.com</code></div>
+            <div class="example-verdict">Your domain can currently be spoofed. <abbr title="Domain-based Message Authentication, Reporting and Conformance">DMARC</abbr> is set to <code>p=none</code> — anyone can send email claiming to be from your domain without being blocked. Change to <code>p=quarantine</code> or <code>p=reject</code>.</div>
           </div>
           <div class="example-block">
-            <div class="example-label example-label--warn">⚠ WARN</div>
-            <div class="example-raw"><code>v=spf1 include:_spf.google.com ~all</code></div>
-            <div class="example-verdict">Your SPF uses <code>~all</code> (softfail). Unauthorised servers can still send as your domain. Change <code>~all</code> to <code>-all</code>.</div>
+            <div class="example-label example-label--warn"><span aria-hidden="true">⚠</span> WARN</div>
+            <div class="example-raw"><code>v=<abbr title="Sender Policy Framework">spf</abbr>1 include:_spf.google.com ~all</code></div>
+            <div class="example-verdict">Your <abbr title="Sender Policy Framework">SPF</abbr> uses <code>~all</code> (softfail). Unauthorised servers can still send as your domain. Change <code>~all</code> to <code>-all</code>.</div>
           </div>
           <div class="example-block">
-            <div class="example-label example-label--pass">✓ PASS</div>
-            <div class="example-raw"><code>TTL: 172800 | Refresh: 10800 | Retry: 3600</code></div>
-            <div class="example-verdict">Your SOA timing is within acceptable ranges. Propagation should complete within 48 hours for standard changes.</div>
+            <div class="example-label example-label--pass"><span aria-hidden="true">✓</span> PASS</div>
+            <div class="example-raw"><code><abbr title="Time To Live">TTL</abbr>: 172800 | Refresh: 10800 | Retry: 3600</code></div>
+            <div class="example-verdict">Your <abbr title="Start of Authority">SOA</abbr> timing is within acceptable ranges. Propagation should complete within 48 hours for standard changes.</div>
           </div>
         </div>
       </div>
@@ -139,7 +143,7 @@ import Footer from '../components/Footer.astro';
         <div class="step">
           <div class="step-num">2</div>
           <h3>72 checks run automatically</h3>
-          <p>DNS health, email authentication, SSL, DNSSEC, and blacklist lookups — all in parallel, in seconds.</p>
+          <p><abbr title="Domain Name System">DNS</abbr> health, email authentication, <abbr title="Secure Sockets Layer">SSL</abbr>, <abbr title="Domain Name System Security Extensions">DNSSEC</abbr>, and blacklist lookups — all in parallel, in seconds.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
@@ -166,19 +170,19 @@ import Footer from '../components/Footer.astro';
       </div>
       <div class="grid-3">
         <div class="card">
-          <div class="card-icon">⚡</div>
+          <div class="card-icon" aria-hidden="true">⚡</div>
           <h3>Developers &amp; engineers</h3>
           <p>Run a report before you deploy. Catch misconfigured MX records, missing DMARC policies, broken SSL chains, or incorrect nameserver delegation before they turn into 11pm support calls.</p>
           <p class="card-note">Use it as a pre-deployment checklist. Every time.</p>
         </div>
         <div class="card">
-          <div class="card-icon">🖥</div>
+          <div class="card-icon" aria-hidden="true">🖥</div>
           <h3>IT teams &amp; sysadmins</h3>
           <p>Monitor your full domain estate. Get alerted the moment anything changes — a misconfigured record, a new blacklist listing, an expiring certificate — before your users notice.</p>
           <p class="card-note">Set it up once. Let it watch.</p>
         </div>
         <div class="card">
-          <div class="card-icon">🏢</div>
+          <div class="card-icon" aria-hidden="true">🏢</div>
           <h3>MSPs &amp; agencies</h3>
           <p>White-label DNS health reports under your own branding. Deliver professional domain audits to every client, run from a single multi-domain dashboard, via API if you need it.</p>
           <p class="card-note">Look like the expert. Because you are.</p>
@@ -208,7 +212,7 @@ import Footer from '../components/Footer.astro';
           { icon: '🏷', title: 'White-label reports', desc: 'Your logo, your branding, your client relationships.', agency: true },
         ].map(f => (
           <div class="feature-item">
-            <div class="feature-icon">{f.icon}</div>
+            <div class="feature-icon" aria-hidden="true">{f.icon}</div>
             <div>
               <h4>{f.title}{f.pro ? <span class="tier-badge">Pro</span> : f.agency ? <span class="tier-badge tier-badge--agency">Agency</span> : null}</h4>
               <p>{f.desc}</p>
@@ -232,11 +236,11 @@ import Footer from '../components/Footer.astro';
           <div class="plan-name">Free</div>
           <div class="price">$0 <span>/ month</span></div>
           <ul>
-            <li><span class="check-yes">✓</span> 3 domain checks per month</li>
-            <li><span class="check-yes">✓</span> All 72 DNS checks</li>
-            <li><span class="check-yes">✓</span> Health Score + letter grade</li>
-            <li><span class="check-yes">✓</span> Fix This First priority stack</li>
-            <li><span class="check-yes">✓</span> Shareable URLs (24-hour expiry)</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> 3 domain checks per month</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> All 72 DNS checks</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Health Score + letter grade</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Fix This First priority stack</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Shareable URLs (24-hour expiry)</li>
           </ul>
           <a href="/" class="btn btn-outline" onclick="document.getElementById('domain-input').focus();return false;">Run free check</a>
         </div>
@@ -245,12 +249,12 @@ import Footer from '../components/Footer.astro';
           <div class="plan-name">Pro</div>
           <div class="price">$19 <span>/ month</span></div>
           <ul>
-            <li><span class="check-yes">✓</span> 25 domain checks per month</li>
-            <li><span class="check-yes">✓</span> Full AI-ready remediation</li>
-            <li><span class="check-yes">✓</span> AI Prompt button (Claude/ChatGPT)</li>
-            <li><span class="check-yes">✓</span> 90-day report history</li>
-            <li><span class="check-yes">✓</span> Change alerts &amp; daily monitoring</li>
-            <li><span class="check-yes">✓</span> PDF + JSON export</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> 25 domain checks per month</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Full AI-ready remediation</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> AI Prompt button (Claude/ChatGPT)</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> 90-day report history</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Change alerts &amp; daily monitoring</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> PDF + JSON export</li>
           </ul>
           <a href="/auth/sign-up" class="btn btn-primary">Start free trial</a>
         </div>
@@ -258,11 +262,11 @@ import Footer from '../components/Footer.astro';
           <div class="plan-name">Agency</div>
           <div class="price">$49 <span>/ month</span></div>
           <ul>
-            <li><span class="check-yes">✓</span> Unlimited domain checks</li>
-            <li><span class="check-yes">✓</span> White-label PDF (your logo)</li>
-            <li><span class="check-yes">✓</span> REST API + webhooks</li>
-            <li><span class="check-yes">✓</span> Permanent shareable URLs</li>
-            <li><span class="check-yes">✓</span> 12-month report history</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Unlimited domain checks</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> White-label PDF (your logo)</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> REST API + webhooks</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> Permanent shareable URLs</li>
+            <li><span class="check-yes" aria-hidden="true">✓</span> 12-month report history</li>
           </ul>
           <a href="/auth/sign-up" class="btn btn-outline">Start free trial</a>
         </div>
@@ -279,7 +283,8 @@ import Footer from '../components/Footer.astro';
         <p>It's free. It takes five seconds. And it might save you from a very bad day.</p>
         <form id="check-form-2" class="checker-form checker-form--inline" novalidate>
           <div class="input-row">
-            <input type="text" id="domain-input-2" name="domain" placeholder="Enter any domain" autocomplete="off" autocapitalize="none" spellcheck="false" />
+            <label for="domain-input-2" class="sr-only">Domain to check</label>
+            <input type="text" id="domain-input-2" name="domain" placeholder="Enter any domain" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-required="true" />
             <button type="submit" class="btn btn-primary btn-run">
               <span class="btn-text">Run Free Report →</span>
               <span class="btn-loading" aria-hidden="true">Scanning…</span>
@@ -350,7 +355,23 @@ import Footer from '../components/Footer.astro';
   gap: 0.75rem;
 }
 .trust-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.ticker-wrap { overflow: hidden; max-width: 480px; width: 100%; }
+.ticker-wrap { position: relative; overflow: hidden; max-width: 480px; width: 100%; }
+.ticker-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.3rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ticker-toggle:hover { color: var(--text); }
+.ticker.is-paused { animation-play-state: paused; }
 .ticker {
   display: flex;
   gap: 2.5rem;
@@ -483,6 +504,15 @@ const ticker = document.querySelector('.ticker') as HTMLElement;
 if (ticker) {
   ticker.innerHTML = ticker.innerHTML + ticker.innerHTML;
 }
+
+// Ticker pause/resume control
+const tickerToggle = document.getElementById('ticker-toggle') as HTMLButtonElement;
+tickerToggle?.addEventListener('click', () => {
+  const isPaused = ticker?.classList.toggle('is-paused');
+  tickerToggle.setAttribute('aria-pressed', String(!!isPaused));
+  tickerToggle.textContent = isPaused ? '▶' : '⏸';
+  tickerToggle.setAttribute('aria-label', isPaused ? 'Resume scrolling list' : 'Pause scrolling list');
+});
 
 // Form handler (shared by both forms)
 async function handleSubmit(form: HTMLFormElement) {
